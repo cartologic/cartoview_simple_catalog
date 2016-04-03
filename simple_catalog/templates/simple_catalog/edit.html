@@ -1,0 +1,156 @@
+{% extends "site_base.html" %}
+{% load bootstrap staticfiles%}
+{% load i18n %}
+
+{% block title %} {{ map_layer.title }} — {{ block.super }} {% endblock %}
+{% block extra_head %}
+    <style>
+
+    </style>
+{% endblock %}
+{% block footer %}{% endblock %}
+{% block extra_script %}
+
+<script type="text/javascript">
+    angular.module('catalogApp', []).controller('catalogController', function($scope, $http){
+        $scope.SITEURL = "{{SITEURL}}";
+        $scope.queryString = {
+            layers: true,
+            maps: true,
+            apps: true,
+            documents:true,
+            featured: false,
+            keywords: ""
+        };
+        $scope.catalog = {
+            id: "{{catalog.id}}",
+            title: "{{catalog.title}}",
+            abstract: "{{catalog.abstract}}",
+            config:"{{catalog.config | safe }}"
+        };
+        if($scope.catalog.config != ""){
+            var params = $scope.catalog.config.split("&");
+            angular.forEach(params,function(param){
+               var keyVal = param.split("=")
+                if(keyVal[0]=="keywords"){
+                    $scope.queryString.keywords = keyVal[1];
+                }
+                else{
+                    $scope.queryString[keyVal[0]] = keyVal[1] == 'true';
+                }
+            });
+        }
+        var baseUrl = "{% url 'simple_catalog.catalog' %}";
+        $scope.catalog.url = baseUrl + "?" + $scope.catalog.config;
+        function getQueryString(){
+
+            var str = [];
+            for(var p in $scope.queryString) {
+                if ($scope.queryString.hasOwnProperty(p)) {
+                    str.push(p + "=" + $scope.queryString[p]);
+                }
+            }
+            return str.join("&");
+
+        }
+        $scope.$watch('queryString', function(){
+            $scope.catalog.config = getQueryString();
+            $scope.catalog.url = baseUrl + "?" + $scope.catalog.config;
+        }, true);
+
+    });
+</script>
+
+{% endblock %}
+{% block body_outer %}
+    <form method="post" action="{% url 'simple_catalog.save' %}">
+    {% csrf_token %}
+
+    {%  verbatim %}
+    <div ng-app="catalogApp" ng-controller="catalogController">
+        <h2>Create Your Simple Catalog</h2>
+        <div>
+            <div>
+                <div class="form-group" >
+                    <label>Title</label>
+                    <input  ng-model="catalog.title" class="form-control" name="title"
+                            placeholder="Catalog Title" type="text" />
+                </div>
+                <div class="form-group" >
+                    <label>Abstract</label>
+                    <textarea  ng-model="catalog.abstract" class="form-control" name="abstract"
+                            placeholder="Catalog Abstract"></textarea>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="queryString.layers"> Layers
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="queryString.maps"> Maps
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="queryString.apps"> Apps
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="queryString.documents"> Documents
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="queryString.featured"> Featured
+                    </label>
+                </div>
+
+                <div class="form-group" style="position:relative;margin-top: 60px;">
+                    <label for="txt-tags" style="position:relative;top: -60px;">Keywords</label>
+                    <input style="position:relative;top: -60px;" ng-model="queryString.keywords" class="has-popover form-control autocomplete vTextField autocomplete-light-text-widget autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TagAutocomplete/" data-container="body" data-content="A space or comma-separated list of keywords" data-html="true" data-placement="right" data-widget-bootstrap="text"  placeholder="Type some text to search in this autocomplete" type="text" />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="id" ng-model="catalog.id" style="display: none;">
+                    <input type="text" name="config" ng-model="catalog.config"  style="display: none;">
+                    <button  class="btn btn-primary" type="submit">Save</button>
+                </div>
+
+            </div>
+
+            <h3>Preview:</h3>
+            <div>
+                <!--{{catalog.url}}-->
+
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                  Embed Catalog
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Copy the following code and paste in your page HTML</h4>
+                      </div>
+                      <div class="modal-body">
+                        <textarea class="form-control">
+                            <iframe frameborder="0" style="width: 100%;height:500px;" src="{{SITEURL}}{{catalog.url}}"></iframe>
+                        </textarea>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div> <!--scrolling="no" -->
+            <iframe frameborder="0" style="width: 100%;height:500px;" ng-src="{{catalog.url}}"></iframe>
+        </div>
+    </div>
+    {% endverbatim %}
+    </form>
+
+{% endblock %}
