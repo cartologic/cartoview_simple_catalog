@@ -28,5 +28,5 @@ class CatalogConfig(object):
         return json.dumps(self.__dict__)
 
 
-class Catalog(AppInstance):
-    config = models.TextField(null=True, blank=True)
+# class Catalog(AppInstance):
+#     config = models.TextField(null=True, blank=True)

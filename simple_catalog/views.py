@@ -1,8 +1,8 @@
 from django.shortcuts import render, HttpResponse, render_to_response, HttpResponseRedirect
 from geonode.base.models import ResourceBase
 from django.core.urlresolvers import reverse
-from .models import Catalog, CatalogConfig
-from cartoview.app_manager.models import App
+from .models import CatalogConfig
+from cartoview.app_manager.models import App, AppInstance
 from django.conf import settings
 from . import APP_NAME
 
@@ -12,7 +12,7 @@ def edit(request, app_id=None):
         "SITEURL": settings.SITEURL[0:-1]
     }
     if app_id is not None:
-        context['catalog'] = Catalog.objects.get(id=app_id)
+        context['catalog'] = AppInstance.objects.get(pk=app_id)
     return render(request, "%s/edit.html" % APP_NAME, context)
 
 
@@ -20,24 +20,25 @@ def edit(request, app_id=None):
 def get_item_url(item):
     try:
         return reverse('%s.view' % item.appinstance.app.name, args=[str(item.appinstance.id)])
-
     except:
         try:
-            return reverse('geonode.maps.views.map_view', None, [str(item.id)])
+            if item.map:
+                return reverse('geonode.maps.views.map_view', None, [str(item.id)])
         except:
             pass
 
-    return item.detail_url
+    return None
 
 
 def catalog(request, app_id=None):
-    qs = ResourceBase.objects.filter(title__isnull=False)
+    qs = ResourceBase.objects.filter(title__isnull=False).exclude(pk=app_id)
+    catalog_obj = None
     if app_id is None:
         config = CatalogConfig(request)
     else:
-        catalog_obj = Catalog.objects.get(id=app_id)
+        catalog_obj = AppInstance.objects.get(pk=app_id)
         config = CatalogConfig(catalog=catalog_obj)
-    print config
+
     if config.layers == 'false':
         qs = qs.filter(layer__isnull=True)
     if config.maps == 'false':
@@ -61,7 +62,8 @@ def catalog(request, app_id=None):
             "abstract": item.abstract
         })
     context = {
-        'items': items
+        'items': items,
+        'catalog': catalog_obj
     }
     return render(request, "%s/catalog.html" % APP_NAME, context)
 
@@ -69,11 +71,11 @@ def catalog(request, app_id=None):
 def save(request):
     catalog_id = request.POST.get("id", "")
     if catalog_id == "":
-        catalog_obj = Catalog()
+        catalog_obj = AppInstance()
         catalog_obj.app = App.objects.get(name=APP_NAME)
         catalog_obj.owner = request.user
     else:
-        catalog_obj = Catalog.objects.get(id=catalog_id)
+        catalog_obj = AppInstance.objects.get(pk=catalog_id)
 
     catalog_obj.title = request.POST.get("title", None)
     catalog_obj.abstract = request.POST.get("abstract", None)

@@ -1,98 +1,51 @@
-{% extends "public/site_base.html" %}
-{% load bootstrap staticfiles%}
-{% load i18n %}
-{% block extra_head %}
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{{ STATIC_URL }}img/cartoview.png"/>
+    <title>{{ SITE_NAME }} - {{ catalog.title }}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}vendor/normalize.css">
+    <link rel='stylesheet prefetch' href='{{ STATIC_URL }}vendor/angular-material/angular-material.min.css'>
+
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
     <style>
-        body{
-            padding: 0;
+        md-card{
+            width:280px;
         }
-        .catalog-item{
-
-        }
-        .catalog-item a{
-            text-decoration: none;
-        }
-        .catalog-list{
-            padding-top: 10px;
-
-        }
-        .catalog-item .thumbnail {
-
-
-            padding: 0;
-            border-radius: 0;
-            position: relative;
-            box-shadow: 0px 0px 3px rgba(0,0,0,.3);
-            color:rgb(51, 51, 51);
-            background: white;
-            border: none;
-        }
-        .catalog-item .thumbnail .img-ct{
-            position: relative;
-            height: 175px;
-            overflow: hidden;
-        }
-        .catalog-item .thumbnail img{
-            position: absolute;
-            top: 0;
-            left: 0;
-            min-width: 100%;
-            min-height: 100%;
-        }
-        .catalog-item .thumbnail .img{
-            display: inline-block;
-            width: 100%;
-            height: 175px;
-            background-color: transparent;
-            /*background-size: auto 100%;*/
-            /*background-position: center center;*/
-        }
-        .catalog-item .thumbnail .caption {
-            padding: 0px 15px 15px 15px;
-        }
-        .catalog-item .thumbnail h3{
-            font-size: 19px;
-            line-height: 24px;
-            font-weight: normal;
-            color: #7ca3d6;
-            margin-top: 0;
-            margin-bottom: 10px;
-            text-transform: none;
-            padding-top: 5px;
-            text-align: center;
-            height: 30px;
-            overflow: hidden;
-        }
-        .catalog-item .thumbnail .btn{
-            width: 45%;
-            border-radius: 0;
-        }
-        .catalog-item .thumbnail div.abstract{
-            height: 60px;
-            font-weight: normal;
-            color: #666;
-            display: inline-block;
-            overflow: hidden;
+        .catalog-ct{
+            margin:100px auto;
         }
     </style>
-{% endblock %}
-{% block header %}{% endblock %}
-{% block footer %}{% endblock %}
-{% block extra_script %}
+</head>
+<body ng-app="cartoview.catalogApp" >
 
+    <div layout="row"  layout-wrap layout-align="center center">
+        {% for item in items %}
+        <md-card >
+            <img src="{{ item.thumbnail }}" class="md-card-image" alt="{{ item.title }}">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{ item.title }}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+                {% if item.url %}<md-button href="{{ item.url }}">View</md-button> {% endif %}
+                <md-button href="{{ item.detail_url }}">Details</md-button>
+            </md-card-actions>
+        </md-card>
+        {% endfor %}
+    </div>
+    <script type="text/javascript" src='{{ STATIC_URL }}vendor/angular/angular.min.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}vendor/angular-animate/angular-animate.min.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}vendor/angular-aria/angular-aria.min.js'></script>
+    <script type="text/javascript" src='{{ STATIC_URL }}vendor/angular-material/angular-material.min.js'></script>
     <script type="text/javascript">
-    $(function(){
-
-    })
+        var app = angular.module('cartoview.catalogApp', ['ngMaterial']);
     </script>
+</body>
+</html>
 
-{% endblock %}
-
-{% block middle %}
-<div class="catalog-list">
-    {% include "simple_catalog/catalog_list.html" %}
-</div>
-
-{% endblock %}
 
 

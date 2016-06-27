@@ -31,7 +31,7 @@
         if($scope.catalog.config != ""){
             var params = $scope.catalog.config.split("&");
             angular.forEach(params,function(param){
-               var keyVal = param.split("=")
+               var keyVal = param.split("=");
                 if(keyVal[0]=="keywords"){
                     $scope.queryString.keywords = keyVal[1];
                 }
