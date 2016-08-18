@@ -1,0 +1,7 @@
+.catalog-paging .md-button{
+    min-width: 36px;
+}
+
+.catalog-ct md-autocomplete input{
+    padding: 0 50px;
+}

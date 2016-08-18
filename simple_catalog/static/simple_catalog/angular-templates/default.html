@@ -1,0 +1,44 @@
+<div layout-align="column" layout-padding class="catalog-ct">
+    <h3>{{ catalog.title }}</h3>
+    <p>{{ catalog.abstract }}</p>
+    <div layout="row" ng-if="catalog.config.enableSearch" layout-align="end end">
+        <!--<div><md-icon class="material-icons">search</md-icon></div>-->
+        <md-icon style="position: absolute;color: #757575;z-index: 60;pointer-events: none;margin: 8px 15px;">search</md-icon>
+        <md-autocomplete flex="100" flex-gt-sm="33"
+                         type="search"
+                         ng-keypress="doSearch($event)"
+                         md-selected-item-change="loadCatalog()"
+                         md-search-text-change="searchTextChange()"
+                         md-search-text="search.text"
+
+                         md-items="item in []"
+                         md-item-text="item.title"
+                         placeholder="Search...">
+            <span md-highlight-text="search.text">{{item.title}}</span>
+         </md-autocomplete>
+    </div>
+    <div layout="row" layout-wrap>
+        <div ng-repeat="item in catalog.items" flex="50" flex-md="33" flex-gt-md="25" flex-xs="100">
+            <md-card>
+                <img ng-src="{{ item.thumbnail }}" class="md-card-image" alt="{{ item.title }}">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ item.title }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-repeat="(name, url) in item.urls" ng-if="name!='thumbnail'" ng-href="{{ url }}">{{ name }}</md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </div>
+    <div ng-if="catalog.config.enablePaging && catalog.pages > 1" class="catalog-paging">
+        <md-button class="md-raised"
+                   ng-repeat="page in getPageNumbers() track by $index"
+                   ng-click="loadCatalog(page)"
+                   ng-disabled="page == '...'"
+                    ng-class="{'md-primary':page==currentPage}">
+            {{ page }}
+        </md-button>
+    </div>
+</div>
