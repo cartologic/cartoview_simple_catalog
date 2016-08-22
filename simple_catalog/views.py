@@ -49,7 +49,7 @@ def get_item_data(item):
     )
     if hasattr(item, 'appinstance'):
         urls["view"] = reverse('%s.view' % item.appinstance.app.name, args=[str(item.appinstance.id)])
-        if item.appinstance.map:
+        if item.appinstance.map and item.thumbnail_url is None:
             item_data["thumbnail"] = item.appinstance.map.thumbnail_url
         item_data["type"] = "app"
         if item.appinstance.app is not None:
