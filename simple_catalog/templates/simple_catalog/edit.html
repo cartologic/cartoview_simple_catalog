@@ -97,7 +97,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}cartoview/js/appinstance-service.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/js/catalog.js"></script>
     <script type="text/javascript">
-        var catalogEditApp = angular.module('catalogEditApp', ['ngMaterial', 'cartoview.appInstances', 'cartoview.catalog']);
+        var catalogEditApp = angular.module('catalogEditApp', ['cartoview.base', 'cartoview.appInstances', 'cartoview.catalog']);
         catalogEditApp.constant('catalogId', {{ catalog_id }});
     </script>
 <script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/js/edit-controller.js"></script>
@@ -108,7 +108,6 @@
      layout="row">
     <div flex="100"  flex-gt-md="80" layout="column" class="md-padding">
         <h2>Create Your Simple Catalog</h2>
-
         <md-input-container>
             <label>Title</label>
             <input ng-model="catalog.title" placeholder="Catalog Title" name="title">

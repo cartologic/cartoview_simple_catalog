@@ -30,7 +30,7 @@ catalogEditApp.controller('catalogEditController', function($scope, $http, catal
             enablePaging:false,
             itemsPerPage: 10,
             enableSearch:false,
-            selectedItems:[]
+            selectedIds:[]
         };
     }
     $scope.save = function () {

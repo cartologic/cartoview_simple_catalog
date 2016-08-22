@@ -3,7 +3,7 @@
  * pagination code copied from 
  * https://github.com/michaelbromley/angularUtils/blob/1fdc15c084003ab7c16030e53dd0a85065ab8c69/src/directives/pagination/dirPagination.js
  */
-angular.module('cartoview.catalog', ['ngMaterial', 'cartoview.urlsHelper']);
+angular.module('cartoview.catalog', ['cartoview.base', 'cartoview.urlsHelper']);
 angular.module('cartoview.catalog').directive('catalog',function (urls, $http, $q, $compile) {
     var paginationRange = 6;
     function calculatePageNumber(i, currentPage, totalPages) {
