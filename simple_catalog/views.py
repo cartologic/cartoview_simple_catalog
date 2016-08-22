@@ -8,14 +8,34 @@ from django.conf import settings
 from . import APP_NAME
 from guardian.shortcuts import get_objects_for_user
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_GET, require_POST
 
 
+@login_required
 def edit(request, catalog_id=None):
     context = {
         "catalog_id": catalog_id or 'null'
     }
     return render(request, "%s/edit.html" % APP_NAME, context)
 
+@login_required
+@require_POST
+def create_new(request):
+    res_json = dict(success=False)
+    try:
+        data = json.loads(request.body)
+        instance_obj = AppInstance()
+        instance_obj.app = App.objects.get(name=APP_NAME)
+        instance_obj.owner = request.user
+        instance_obj.title = data['title']
+        instance_obj.config = data['config']
+        instance_obj.abstract = data['abstract']
+        instance_obj.save()
+        res_json.update(dict(success=True, id=instance_obj.id))
+    except Exception, e:
+        res_json["error_message"] = str(e)
+    return HttpResponse(json.dumps(res_json), content_type="application/json")
 
 def get_item_data(item):
     urls = dict(details=item.detail_url, )
@@ -68,7 +88,7 @@ def get_qs(request, catalog_obj):
         qs = qs.filter(document__isnull=True)
     if config["featured"]:
         qs = qs.filter(featured=True)
-    if len(config["keywords"]) > 0:
+    if "keywords" in config and len(config["keywords"]) > 0:
         qs = qs.filter(keywords__id__in=config["keywords"])
     search_text = request.GET.get('text', None)
     if search_text is not None:
@@ -97,7 +117,10 @@ def catalog_data(request, catalog_id):
             qs = paginator.page(paginator.num_pages)
             data["page"] = paginator.num_pages
     for item in qs:
-        items.append(get_item_data(item))
+        try:
+            items.append(get_item_data(item))
+        except:
+            pass
     res_json = json.dumps(data)
     return HttpResponse(res_json, content_type="text/json")
 

@@ -5,3 +5,15 @@
 .catalog-ct md-autocomplete input{
     padding: 0 50px;
 }
+
+.catalog-ct md-card md-card-title{
+    padding: 5px 10px;
+}
+
+.catalog-ct md-card md-card-title .md-headline{
+    font-size: 18px;
+}
+
+.catalog-ct md-card .md-button span{
+    font-size: 12px;
+}

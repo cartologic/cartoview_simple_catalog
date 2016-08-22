@@ -42,9 +42,25 @@ catalogEditApp.controller('catalogEditController', function($scope, $http, catal
             });
         }
         $scope.catalog.config = JSON.stringify($scope.configObj);
-        $scope.catalog.$update(function (res) {
-            console.debug(res)
-        })
+        if(catalogId){
+            $scope.catalog.$update(function (res) {
+                console.debug(res)
+            })
+        }
+        else{
+            // $scope.catalog.appName = 'simple_catalog';
+            // $scope.catalog.$save(function (res) {
+            //     console.debug(res)
+            // })
+            $http.post("create/",$scope.catalog).then(function (res) {
+                if(res.data.id){
+                    window.location = "../" + res.data.id + "/edit/"
+                }
+            })
+        }
+
+
+
     };
     $scope.keywordSearchTerm = '';
     $scope.keywords = [];
