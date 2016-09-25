@@ -1,3 +1,6 @@
+.catalog-container{
+    max-width: 980px;
+}
 .catalog-paging .md-button{
     min-width: 36px;
 }
@@ -16,4 +19,32 @@
 
 .catalog-ct md-card .md-button span{
     font-size: 12px;
+}
+
+.catalog-item{
+    text-decoration: none;
+    color: rgba(0,0,0,.87);
+}
+.catalog-item img{
+    width: 100%;
+}
+.catalog-item div.catalog-item-title{
+    padding: 0 10px;
+}
+
+
+.catalog-item div.catalog-item-title h4{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+.catalog-search-icon{
+    /*position: absolute;*/
+    color: #757575;
+    z-index: 60;
+    pointer-events: none;
+    margin: 8px -35px;
 }

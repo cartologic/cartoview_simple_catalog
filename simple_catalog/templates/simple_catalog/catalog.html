@@ -11,8 +11,8 @@
 {% endblock %}
 {% block body_directives %}ng-app="cartoview.catalogPage"{% endblock %}
 {% block body %}
-<div layout-align="center center" layout="row">
-    <div flex="100"  flex-gt-md="80" layout="column" class="md-padding">
+<div layout-align="center center" layout="row" class="md-padding">
+    <div flex layout="column" class="catalog-container">
         <catalog catalog-id="{{ catalog_id }}"></catalog>
     </div>
 </div>
