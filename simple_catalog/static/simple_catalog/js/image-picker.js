@@ -11,6 +11,7 @@ angular.module('cartoview.catalog.imagePicker', ['ngMaterial', 'cartoview.urlsHe
         templateUrl: urls.STATIC_URL + "simple_catalog/angular-templates/image-picker.html",
         link: function(scope, element, attrs) {
             scope.selector = attrs.selector;
+
             scope.showChangeDialog = function (ev) {
                 $mdDialog.show({
                     controller: ImagePickerDialogController,
@@ -21,7 +22,9 @@ angular.module('cartoview.catalog.imagePicker', ['ngMaterial', 'cartoview.urlsHe
                     fullscreen: true
                 });
             };
-
+            scope.remove = function () {
+                scope.imageUrl = null;
+            };
             function ImagePickerDialogController($scope, Image, $mdDialog) {
                 $scope.selector = attrs.selector;
                 $scope.getImageURL = function (img) {
