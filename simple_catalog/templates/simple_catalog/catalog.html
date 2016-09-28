@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}simple_catalog/css/main.css">
 {% endblock %}
 {% block scripts %}
+    <script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/vendor/angular.dcb-img-fallback.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/js/catalog.js"></script>
     <script type="text/javascript">
         var app = angular.module('cartoview.catalogPage', ['cartoview.catalog']);
@@ -11,11 +12,7 @@
 {% endblock %}
 {% block body_directives %}ng-app="cartoview.catalogPage"{% endblock %}
 {% block body %}
-<div layout-align="center center" layout="row" class="md-padding">
-    <div flex layout="column" class="catalog-container">
-        <catalog catalog-id="{{ catalog_id }}"></catalog>
-    </div>
-</div>
+    <catalog catalog-id="{{ catalog_id }}"></catalog>
 {% endblock %}
 
 

@@ -2,105 +2,32 @@
 
 {% block title %} {{ catalog.title }} — {{ block.super }} {% endblock %}
 {% block styles %}
-    <style>
-    .keywords-select-header {
-    }
-  .keywords-select-header .keywords-header-searchbox {
-    border: none;
-    outline: none;
-    height: 100%;
-    width: 100%;
-    padding: 0;
-  }
-  .keywords-select-header .keywords-select-header {
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(0, 0, 0, 0.12);
-    padding-left: 10.667px;
-    height: 48px;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: auto;
-  }
-  .keywords-select-header md-content._md {
-    max-height: 240px; 
-  }
-
-    md-tabs {
-      background: #f6f6f6;
-      border: 1px solid #e1e1e1;
-    }
-
-    md-tabs md-tabs-wrapper {
-      background: white;
-    }
-
-    .md-tab md-icon {
-        visibility: hidden;
-    }
-    .md-tab.md-active md-icon {
-        visibility: visible;
-    }
-
-    .md-chips .md-chip{
-        height: 60px;
-        border-radius: 0;
-        padding: 0 0;
-    }
-    span.item-title{
-        padding: 0px 10px;
-    }
-    span.item-type{
-        position: absolute;
-        text-transform: uppercase;
-        background-color: #444;
-        color: #fff;
-        bottom: 0;
-        left: 0;
-        padding: 2px;
-        font-size: 10px;
-        font-weight: bold;
-        display: inline-block;
-        line-height: 10px;
-    }
-    img.item-img{
-        height: 60px;
-    }
-    .md-chips .md-chip-input-container md-autocomplete{
-        min-width:400px;
-    }
-    .item-tpl{
-        position: relative;
-    }
-
-.autocomplete-resources-list.md-autocomplete-suggestions li {
-    /* font-size: 14px; */
-    overflow: hidden;
-    padding: 0 15px;
-    /* line-height: 48px; */
-    height: 48px;
-    /* transition: background .15s linear; */
-    /* margin: 10px 0; */
-    /* white-space: nowrap; */
-    /* text-overflow: ellipsis; */
-    height: 61px;
-}
-{#    .autocomplete-resources-list .item-tpl{#}
-{#        margin: 5px 0;#}
-{#    }#}
-    </style>
-    <link rel="stylesheet" href="{{ STATIC_URL }}simple_catalog/css/main.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}simple_catalog/css/config.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}user_engage/css/main.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}vendor/lf-ng-md-file-input/lf-ng-md-file-input.min.css">
 {% endblock %}
 
 {% block scripts %}
     <script type="text/javascript" src="{{ STATIC_URL }}vendor/angular-resource.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}cartoview/js/appinstance-service.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/js/catalog.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/js/image-picker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}vendor/angular-resource.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}vendor/ng-image-appear.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}vendor/lf-ng-md-file-input/lf-ng-md-file-input.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/app.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/services.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/directives.js"></script>
     <script type="text/javascript">
-        var catalogEditApp = angular.module('catalogEditApp', ['cartoview.base', 'cartoview.appInstances', 'cartoview.catalog']);
+        var catalogEditApp = angular.module('catalogEditApp', [
+            'cartoview.base',
+            'cartoview.appInstances',
+            'cartoview.catalog.imagePicker',
+            'cartoview.userEngage'
+        ]);
         catalogEditApp.constant('catalogId', {{ catalog_id }});
     </script>
-<script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/js/edit-controller.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/js/edit-controller.js"></script>
 {% endblock %}
 {% block body_directives %}ng-app="catalogEditApp" ng-controller="catalogEditController"{% endblock %}
 {% block body %}
@@ -113,9 +40,32 @@
             <input ng-model="catalog.title" placeholder="Catalog Title" name="title">
         </md-input-container>
         <md-input-container>
+            <label>Sub Title</label>
+            <input ng-model="configObj.subTitle" placeholder="Catalog Sub Title" name="subtitle">
+        </md-input-container>
+        <md-input-container>
             <label>Abstract</label>
             <textarea  ng-model="catalog.abstract" placeholder="Catalog Abstract" name="abstract"></textarea>
         </md-input-container>
+
+        <div layout-padding>
+            <label>Logo</label>
+            <image-picker image-url="configObj.logo" selector="logo"></image-picker>
+        </div>
+        <div layout-padding>
+            <label>Header Image</label>
+            <image-picker image-url="configObj.headerImage" selector="header"></image-picker>
+        </div>
+<!--        <md-input-container>
+            <label>Logo</label>
+            <input ng-model="configObj.logo" placeholder="Logo Url" name="logo">
+        </md-input-container>
+
+        <md-input-container>
+            <label>Header Image</label>
+            <input ng-model="configObj.headerImage" placeholder="Header Image Url" name="headerImage">
+        </md-input-container>
+    -->
         <h4>Select Catalog Items By:</h4>
         <md-tabs  md-dynamic-height md-border-bottom md-autoselect md-selected="selectedTab">
             <md-tab>
@@ -158,46 +108,18 @@
                     <span>One By One</span>
                 </md-tab-label>
                 <md-tab-body>
-{#                <catalog template="selector" all-resources#}
-{#                 {% if catalog_id != 'null' %}catalog-id="{{ catalog_id }}"{% endif %}></catalog>#}
-
-
-
-                    <md-chips ng-model="autocomplete.selectedItems" md-autocomplete-snap
-                              md-transform-chip="transformChip($chip)"
-                              md-require-match="true">
-                        <md-autocomplete
-                                md-selected-item="autocomplete.selectedItem"
-                                md-search-text="autocomplete.text"
-                                md-no-cache="true"
-                                md-items="item in loadAutocomplete()"
-                                md-item-text="item.title"
-                                md-min-length="0"
-                                md-menu-class="autocomplete-resources-list"
-                                placeholder="Add items here">
-                            {% verbatim %}
-                            <md-item-template>
-                                <div layout="row" layout-align="start center"
-                                     class="item-tpl" ng-class="{selected:itemSelected(item)}">
-                                    <img class="item-img" ng-src="{{ item.thumbnail }}">
-                                    <span class="item-title">{{item.title}}</span>
-                                    <span class="item-type">{{item.type}}</span>
-                                </div>
-                                <md-divider></md-divider>
-                            </md-item-template>
-                            <span md-highlight-text="autocomplete.text">{{item.title}}</span>
-                            {% endverbatim %}
-                        </md-autocomplete>
-                        <md-chip-template>
-                            <div layout="row" layout-align="center center" class="item-tpl">
-                                {% verbatim %}
-                                <img class="item-img" ng-src="{{ $chip.thumbnail }}">
-                                <span class="item-title">{{$chip.title}}</span>
-                                <span class="item-type">{{$chip.type}}</span>
-                                {% endverbatim %}
-                            </div>
-                        </md-chip-template>
-                    </md-chips>
+                    {% verbatim %}
+                    <div layout="row" layout-wrap layout-align="start start" class="catalog-one-by-one-list-ct">
+                        <div ng-repeat="item in oneByOne.selectedItems"
+                             layout="row" layout-align="start start" class="item-tpl md-whiteframe-1dp">
+                            <img class="item-img" ng-src="{{ item.thumbnail }}">
+                            <span class="item-title">{{item.title}}</span>
+                            <span class="item-type">{{item.type}}</span>
+                            <md-button ng-click="removeOneByOneItem(item)"><md-icon>clear</md-icon></md-button>
+                        </div>
+                    </div>
+                    <md-button class="md-primary md-fab add-item-btn" ng-click="showResourcesDialog($event)"><md-icon>add</md-icon></md-button>
+                    {% endverbatim %}
                 </md-tab-body>
             </md-tab>
         </md-tabs>
@@ -217,4 +139,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

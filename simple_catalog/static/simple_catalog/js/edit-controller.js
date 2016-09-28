@@ -1,7 +1,8 @@
 /**
  * Created by kamal on 8/3/16.
  */
-catalogEditApp.controller('catalogEditController', function($scope, $http, catalogId, AppInstance, urls, $element, $q){
+catalogEditApp.controller('catalogEditController', function($scope, $http, catalogId,
+                                                            AppInstance, urls, $element, $q, $mdDialog){
     $scope.selectedTab = 0; // tab index for catalog items selection type
     if(catalogId) {
         AppInstance.get({instanceId: catalogId}).$promise.then(function (appInstance) {
@@ -22,6 +23,7 @@ catalogEditApp.controller('catalogEditController', function($scope, $http, catal
             config: ""
         });
         $scope.configObj = {
+            subTitle:"",
             layers: true,
             maps: true,
             apps: true,
@@ -37,7 +39,7 @@ catalogEditApp.controller('catalogEditController', function($scope, $http, catal
         $scope.configObj.selectionType = $scope.selectedTab == 0  ?  "query": "onebyone";
         $scope.configObj.selectedIds = [];
         if($scope.selectedTab == 1){
-            angular.forEach($scope.autocomplete.selectedItems, function (item) {
+            angular.forEach($scope.oneByOne.selectedItems, function (item) {
                 $scope.configObj.selectedIds.push(item.id);
             });
         }
@@ -75,7 +77,7 @@ catalogEditApp.controller('catalogEditController', function($scope, $http, catal
         ev.stopPropagation();
     });
 
-    $scope.autocomplete = {
+    $scope.oneByOne = {
         selectedItems: []
     };
     var allResources;
@@ -88,45 +90,83 @@ catalogEditApp.controller('catalogEditController', function($scope, $http, catal
                     items.push(item)
                 }
                 else{
-                    $scope.autocomplete.selectedItems.push(item)
+                    $scope.oneByOne.selectedItems.push(item)
                 }
             });
         }
         else {
             angular.forEach(allResources, function (item) {
-                if ($scope.autocomplete.selectedItems.indexOf(item) == -1
-                    && item.title.toLowerCase().indexOf($scope.autocomplete.text.toLowerCase()) > -1 ) {
+                if ($scope.oneByOne.selectedItems.indexOf(item) == -1
+                    && item.title.toLowerCase().indexOf($scope.oneByOne.text.toLowerCase()) > -1 ) {
                     items.push(item)
                 }
             });
         }
         return items;
     };
-
+    var promise;
     var loadResources = function () {
-        var url = urls.APPS_BASE_URL + "simple_catalog/resources/all/";
-        var params = {};
-        if (catalogId) {
-            params.catalogId = catalogId;
+        if (!promise) {
+            var url = urls.APPS_BASE_URL + "simple_catalog/resources/all/";
+            var params = {};
+            if (catalogId) {
+                params.catalogId = catalogId;
+            }
+            promise = $http.get(url, {params: params});
+            promise.then(function (res) {
+                allResources = res.data;
+                updateResourcesList(true);
+            });
         }
-        $http.get(url, {params: params}).then(function (res) {
-            allResources = res.data;
-            defer.resolve(updateResourcesList(true));
+        return promise;
+    };
+
+    $scope.showResourcesDialog = function(ev) {
+        loadResources().then(function () {
+            $mdDialog.show({
+                controller: ResourcesDialogController,
+                templateUrl: urls.STATIC_URL + 'simple_catalog/angular-templates/resources-selector-dialog.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: true,
+                locals: {
+                    selectedItems: $scope.oneByOne.selectedItems,
+                    allResources: allResources
+                }
+            });
         });
     };
-    $scope.loadAutocomplete = function () {
-        if(!allResources) {
-            loadResources();
-            return defer.promise;
-        }
-        return updateResourcesList();
+    $scope.removeOneByOneItem = function (item) {
+        var index = $scope.oneByOne.selectedItems.indexOf(item);
+        $scope.oneByOne.selectedItems.splice(index, 1)
     };
-    $scope.transformChip = function(chip) {
-        // If it is an object, it's already a known chip
-        if (angular.isObject(chip)) {
-            return chip;
-        }
-        // Otherwise, create a new one
-        return { title: chip, type: 'new' }
-    };
+    function ResourcesDialogController($scope, $mdDialog, selectedItems, allResources) {
+        $scope.selectedItems = selectedItems;
+        $scope.allResources = allResources;
+        $scope.search = {};
+        $scope.hide = function () {
+            console.debug($scope.allResources);
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+        $scope.answer = function (answer) {
+            $mdDialog.hide(answer);
+        };
+
+
+        $scope.toggleItem = function (item) {
+            var index = selectedItems.indexOf(item);
+            if(index==-1){
+                selectedItems.push(item)
+            }
+            else {
+                selectedItems.splice(index, 1)
+            }
+        };
+    }
 });

@@ -1,0 +1,11 @@
+<div layout="row" layout-align="start end" layout-wrap class="image-picker">
+    <div layout="row"
+         layout-align="center center"
+         class="image-picker-image-ct md-whiteframe-1dp"
+         ng-class="selector"
+         ng-click="showChangeDialog(img);">
+        <img class="image-picker-image" ng-src="{{ imageUrl }}">
+    </div>
+    <md-button class="md-raised md-primary" ng-click="showChangeDialog()">Change</md-button>
+    <md-button class="md-raised md-primary" ng-click="remove()">remove</md-button>
+</div>

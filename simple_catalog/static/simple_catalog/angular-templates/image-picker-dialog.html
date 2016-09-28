@@ -1,0 +1,45 @@
+<md-dialog aria-label="Select Resources" class="catalog-selector-dialog">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Select Image</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="hide()">
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="image-picker-dialog-content">
+            <div layout="row" layout-wrap layout-align="start start" class="image-picker-images">
+                <div ng-repeat="img in image.list.objects"
+                     layout="row"
+                     layout-align="center center"
+                     class="image-picker-image-ct md-whiteframe-1dp"
+                     ng-class="{selected: isSelected(img), header:selector=='header'}"
+                     ng-click="select(img);">
+                    <img ng-src="{{ getImageURL(img) }}">
+                </div>
+            </div>
+            <div class="image-picker-add-form">
+                <div>
+                    <label>Upload a new Image</label>
+                </div>
+                <div layout="row" layout-align="start end">
+                    <lf-ng-md-file-input lf-files="image.imageFile" lf-api="image.uploadFileApi" preview lf-mimetype="image/*"></lf-ng-md-file-input>
+                    <md-button class="md-primary md-raised" ng-click="addImage()"><md-icon>send</md-icon></md-button>
+                </div>
+                <div>
+                    <label>Note that the maximum logo size is 256x256. Your image will be resized to this size.</label>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="hide()">
+       Ok
+      </md-button>
+    </md-dialog-actions>
+</md-dialog>

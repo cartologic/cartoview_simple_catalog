@@ -1,45 +1,60 @@
-<div layout-align="column" class="catalog-ct">
-    <h3>{{ catalog.title }}</h3>
-    <p>{{ catalog.abstract }}</p>
-    <div layout="row" ng-if="catalog.config.enableSearch" layout-align="end end">
-        <!--<div><md-icon class="material-icons">search</md-icon></div>-->
-        <md-icon class="catalog-search-icon">search</md-icon>
-        <md-autocomplete flex="100" flex-gt-sm="33"
-                         type="search"
-                         ng-keypress="doSearch($event)"
-                         md-selected-item-change="loadCatalog()"
-                         md-search-text-change="searchTextChange()"
-                         md-search-text="search.text"
-
-                         md-items="item in []"
-                         md-item-text="item.title"
-                         placeholder="Search...">
-            <span md-highlight-text="search.text">{{item.title}}</span>
-         </md-autocomplete>
-    </div>
-    <div layout="row" layout-wrap>
-        <div ng-repeat="item in catalog.items" flex="25" flex-sm="33" flex-xs="100" class="md-padding">
-            <a layout="column"
-               class="catalog-item md-whiteframe-1dp"
-               ng-class="{'md-whiteframe-6dp':item._hovering}"
-               ng-mouseenter="item._hovering=true;"
-               ng-mouseleave="item._hovering=false;"
-               ng-href="{{ item.urls.view ||  item.urls.details }}"
-               title="{{ item.title }}">
-                <img ng-src="{{ item.thumbnail }}" class="md-card-image" alt="{{ item.title }}">
-                <div class="catalog-item-title">
-                    <h4>{{ item.title }}</h4>
-                </div>
-            </a>
+<div class="catalog-ct" layout="column" layout-align="start center" background-image="catalog.config.headerImage">
+    <div class="catalog-header-ct" layout="column" layout-align="start center" >
+        <div layout="row" class="catalog-header">
+            <div ng-if="catalog.config.logo" layout="row" layout-align="center center" layout-padding>
+                <img ng-src="{{ catalog.config.logo }}">
+            </div>
+            <div flex layout="column">
+                <h1>{{ catalog.title }}</h1>
+                <h2>{{ catalog.config.subTitle }}</h2>
+                <p>{{ catalog.abstract }}</p>
+            </div>
         </div>
     </div>
-    <div ng-if="catalog.config.enablePaging && catalog.pages > 1" class="catalog-paging">
-        <md-button class="md-raised"
-                   ng-repeat="page in getPageNumbers() track by $index"
-                   ng-click="loadCatalog(page)"
-                   ng-disabled="page == '...'"
-                    ng-class="{'md-primary':page==currentPage}">
-            {{ page }}
-        </md-button>
+
+    <div class="catalog-items-ct">
+        <div layout="row" ng-if="catalog.config.enableSearch" layout-align="end end" class="md-padding">
+            <!--<div><md-icon class="material-icons">search</md-icon></div>-->
+            <md-icon class="catalog-search-icon">search</md-icon>
+            <md-autocomplete flex="100" flex-gt-sm="33"
+                             type="search"
+                             ng-keypress="doSearch($event)"
+                             md-selected-item-change="loadCatalog()"
+                             md-search-text-change="searchTextChange()"
+                             md-search-text="search.text"
+                             md-items="item in []"
+                             md-item-text="item.title"
+                             placeholder="Search...">
+                <span md-highlight-text="search.text">{{item.title}}</span>
+             </md-autocomplete>
+        </div>
+        <div layout="row" layout-wrap>
+            <div ng-repeat="item in catalog.items" flex="25" flex-sm="33" flex-xs="100" class="md-padding">
+                <a layout="column"
+                   class="catalog-item md-whiteframe-1dp"
+                   ng-class="{'md-whiteframe-6dp':item._hovering}"
+                   ng-mouseenter="item._hovering=true;"
+                   ng-mouseleave="item._hovering=false;"
+                   ng-href="{{ item.urls.view ||  item.urls.details }}"
+                   title="{{ item.title }}">
+                    <div class="catalog-item-image-ct" layout="row" layout-align="center center">
+                        <img ng-src="{{ item.thumbnail || fallbackSrc }}"  alt="{{ item.title }}" fallback-src="{{ fallbackSrc }}">
+                    </div>
+
+                    <div class="catalog-item-title">
+                        <h4>{{ item.title }}</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div ng-if="catalog.config.enablePaging && catalog.pages > 1" class="catalog-paging">
+            <md-button class="md-raised"
+                       ng-repeat="page in getPageNumbers() track by $index"
+                       ng-click="loadCatalog(page)"
+                       ng-disabled="page == '...'"
+                        ng-class="{'md-primary':page==currentPage}">
+                {{ page }}
+            </md-button>
+        </div>
     </div>
 </div>

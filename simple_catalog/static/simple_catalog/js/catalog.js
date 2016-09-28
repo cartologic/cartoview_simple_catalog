@@ -3,8 +3,9 @@
  * pagination code copied from 
  * https://github.com/michaelbromley/angularUtils/blob/1fdc15c084003ab7c16030e53dd0a85065ab8c69/src/directives/pagination/dirPagination.js
  */
-angular.module('cartoview.catalog', ['cartoview.base', 'cartoview.urlsHelper']);
-angular.module('cartoview.catalog').directive('catalog',function (urls, $http, $q, $compile) {
+angular.module('cartoview.catalog', ['cartoview.base', 'cartoview.urlsHelper', 'dcbImgFallback']);
+
+angular.module('cartoview.catalog').directive('catalog', function (urls, $http, $q, $compile) {
     var paginationRange = 6;
     function calculatePageNumber(i, currentPage, totalPages) {
         var halfWay = Math.ceil(paginationRange/2);
@@ -32,6 +33,7 @@ angular.module('cartoview.catalog').directive('catalog',function (urls, $http, $
         link: function (scope, element, attrs) {
             var template = attrs.template || 'default';
             scope.templateUrl = urls.STATIC_URL + "simple_catalog/angular-templates/"+ template +".html";
+            scope.fallbackSrc = urls.STATIC_URL + "simple_catalog/images/fallback.png";;
             // element.html(template);
             // $compile(element.contents())(scope);
 
@@ -110,4 +112,36 @@ angular.module('cartoview.catalog').directive('catalog',function (urls, $http, $
 
         }
     }
+});
+
+// angular.module('cartoview.catalog').directive('imageonload', function() {
+//     return {
+//         restrict: 'A',
+//         link: function(scope, element, attrs) {
+//             element.bind('load', function() {
+//                 console.debug(element)
+//                 console.info('image is loaded');
+//             });
+//             element.bind('error', function(){
+//                 console.debug(element)
+//                 console.info('image could not be loaded');
+//             });
+//         }
+//     };
+// });
+angular.module('cartoview.catalog').directive('backgroundImage', function() {
+    return {
+        scope: {
+            backgroundImage: '=backgroundImage'
+        },
+        link: function (scope, element, attrs) {
+            scope.$watch('backgroundImage',function () {
+                var url = scope.backgroundImage;
+                element.css({
+                    'background-image': 'url(' + url + ')'
+                });
+            });
+
+        }
+    };
 });

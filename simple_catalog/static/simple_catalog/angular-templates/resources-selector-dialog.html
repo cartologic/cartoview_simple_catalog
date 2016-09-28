@@ -1,0 +1,46 @@
+<md-dialog aria-label="Select Resources" class="catalog-selector-dialog">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Select Resources</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="hide()">
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row">
+            <div flex></div>
+            <md-input-container class="md-icon-float md-block">
+                <!-- Use floating label instead of placeholder -->
+                <label>Search</label>
+                <md-icon>search</md-icon>
+                <input ng-model="search.title" type="text">
+            </md-input-container>
+        </div>
+        <div layout="row" layout-wrap layout-align="start start" class="catalog-one-by-one-list-ct">
+            <div ng-repeat="item in allResources | filter:search:strict"
+                 ng-click="toggleItem(item)"
+                 layout="row" layout-align="center center"
+                 class="item-tpl md-whiteframe-1dp catalog-selector-item" ng-class="{selected:selectedItems.indexOf(item) != -1}">
+                <img class="item-img" ng-src="{{ item.thumbnail }}">
+                <span class="item-title">{{item.title}}</span>
+                <span class="item-type">{{item.type}}</span>
+                <div class="catalog-selector-check" ng-class="{selected:selectedItems.indexOf(item) != -1}"><md-icon>done</md-icon></div>
+            </div>
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="hide()">
+       Ok
+      </md-button>
+      <!--<md-button ng-click="answer('useful')">
+        Cancel
+      </md-button>-->
+    </md-dialog-actions>
+</md-dialog>
