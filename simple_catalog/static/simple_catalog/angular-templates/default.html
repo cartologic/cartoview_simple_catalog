@@ -1,6 +1,6 @@
 <div class="catalog-ct" layout="column" layout-align="start center" background-image="catalog.config.headerImage">
     <div class="catalog-header-ct" layout="column" layout-align="start center" >
-        <div layout="row" class="catalog-header">
+        <div layout="row" class="catalog-header" ng-class="{hasbg:catalog.config.headerImage}">
             <div ng-if="catalog.config.logo" layout="row" layout-align="center center" layout-padding>
                 <img ng-src="{{ catalog.config.logo }}">
             </div>
