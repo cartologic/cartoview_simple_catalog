@@ -24,6 +24,11 @@
             'cartoview.catalog.imagePicker',
             'cartoview.userEngage'
         ]);
+
+        catalogEditApp.config(function($httpProvider){
+            $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+            $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+        });
         catalogEditApp.constant('catalogId', {{ catalog_id }});
     </script>
 
