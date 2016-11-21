@@ -24,14 +24,14 @@ angular.module('cartoview.catalog.imagePicker', ['ngMaterial', 'cartoview.urlsHe
             scope: {
                 imageUrl: '='
             },
-            templateUrl: urls.STATIC_URL + "simple_catalog/angular-templates/image-picker.html",
+            templateUrl: urls.STATIC_URL + "cartoview_simple_catalog/angular-templates/image-picker.html",
             link: function (scope, element, attrs) {
                 scope.selector = attrs.selector;
 
                 scope.showChangeDialog = function (ev) {
                     $mdDialog.show({
                         controller: ImagePickerDialogController,
-                        templateUrl: urls.STATIC_URL + "simple_catalog/angular-templates/image-picker-dialog.html",
+                        templateUrl: urls.STATIC_URL + "cartoview_simple_catalog/angular-templates/image-picker-dialog.html",
                         parent: angular.element(document.body),
                         targetEvent: ev,
                         clickOutsideToClose: true,
@@ -47,7 +47,7 @@ angular.module('cartoview.catalog.imagePicker', ['ngMaterial', 'cartoview.urlsHe
                         $scope.defaultImages = [];
                         defaultLogos.forEach(function (imageName) {
                             $scope.defaultImages.push({
-                                thumbnail: urls.STATIC_URL + "simple_catalog/images/logos/" + imageName
+                                thumbnail: urls.STATIC_URL + "cartoview_simple_catalog/images/logos/" + imageName
                             })
                         })
                     }

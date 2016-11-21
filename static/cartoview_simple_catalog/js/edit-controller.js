@@ -107,7 +107,7 @@ catalogEditApp.controller('catalogEditController', function($scope, $http, catal
     var promise;
     var loadResources = function () {
         if (!promise) {
-            var url = urls.APPS_BASE_URL + "simple_catalog/resources/all/";
+            var url = urls.APPS_BASE_URL + "cartoview_simple_catalog/resources/all/";
             var params = {};
             if (catalogId) {
                 params.catalogId = catalogId;
@@ -125,7 +125,7 @@ catalogEditApp.controller('catalogEditController', function($scope, $http, catal
         loadResources().then(function () {
             $mdDialog.show({
                 controller: ResourcesDialogController,
-                templateUrl: urls.STATIC_URL + 'simple_catalog/angular-templates/resources-selector-dialog.html',
+                templateUrl: urls.STATIC_URL + 'cartoview_simple_catalog/angular-templates/resources-selector-dialog.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true,

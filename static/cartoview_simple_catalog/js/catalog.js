@@ -32,12 +32,12 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
         template: "<div><ng-include src='templateUrl'></ng-include></div>",
         link: function (scope, element, attrs) {
             var template = attrs.template || 'default';
-            scope.templateUrl = urls.STATIC_URL + "simple_catalog/angular-templates/"+ template +".html";
-            scope.fallbackSrc = urls.STATIC_URL + "simple_catalog/images/fallback.png";;
+            scope.templateUrl = urls.STATIC_URL + "cartoview_simple_catalog/angular-templates/"+ template +".html";
+            scope.fallbackSrc = urls.STATIC_URL + "cartoview_simple_catalog/images/fallback.png";;
             // element.html(template);
             // $compile(element.contents())(scope);
 
-            var url  = urls.APPS_BASE_URL + 'simple_catalog/' + attrs.catalogId + "/data/";
+            var url  = urls.APPS_BASE_URL + 'cartoview_simple_catalog/' + attrs.catalogId + "/data/";
 
             scope.currentSearchText = "";
             scope.search = {
@@ -98,7 +98,7 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
             };
             scope.autocomplete = {};
             scope.loadAutocomplete = function (text) {
-                var url = urls.APPS_BASE_URL + 'simple_catalog/' + attrs.catalogId + "/autocomplete/";
+                var url = urls.APPS_BASE_URL + 'cartoview_simple_catalog/' + attrs.catalogId + "/autocomplete/";
                 var params = {
                     text:text
                 };

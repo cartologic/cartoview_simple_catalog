@@ -2,7 +2,7 @@
 
 {% block title %} {{ catalog.title }} — {{ block.super }} {% endblock %}
 {% block styles %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}simple_catalog/css/config.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}cartoview_simple_catalog/css/config.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}user_engage/css/main.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}vendor/lf-ng-md-file-input/lf-ng-md-file-input.min.css">
 {% endblock %}
@@ -10,7 +10,7 @@
 {% block scripts %}
     <script type="text/javascript" src="{{ STATIC_URL }}vendor/angular-resource.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}cartoview/js/appinstance-service.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/js/image-picker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}cartoview_simple_catalog/js/image-picker.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}vendor/angular-resource.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}vendor/ng-image-appear.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}vendor/lf-ng-md-file-input/lf-ng-md-file-input.min.js"></script>
@@ -32,7 +32,7 @@
         catalogEditApp.constant('catalogId', {{ catalog_id }});
     </script>
 
-    <script type="text/javascript" src="{{ STATIC_URL }}simple_catalog/js/edit-controller.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}cartoview_simple_catalog/js/edit-controller.js"></script>
 {% endblock %}
 {% block body_directives %}ng-app="catalogEditApp" ng-controller="catalogEditController"{% endblock %}
 {% block body %}
@@ -139,7 +139,7 @@
             <md-button  class="md-raised md-primary" ng-click="save()">Save</md-button>
             {% if catalog_id != 'null' %}
                 <md-button  class="md-raised" href="{% url 'appinstance_detail' catalog_id %}">Details</md-button>
-                <md-button  class="md-raised" href="{% url 'simple_catalog.view' catalog_id %}">View</md-button>
+                <md-button  class="md-raised" href="{% url 'cartoview_simple_catalog.view' catalog_id %}">View</md-button>
             {% endif %}
         </div>
     </div>
