@@ -33,7 +33,7 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
         link: function (scope, element, attrs) {
             var template = attrs.template || 'default';
             scope.templateUrl = urls.STATIC_URL + "cartoview_simple_catalog/angular-templates/"+ template +".html";
-            scope.fallbackSrc = urls.STATIC_URL + "cartoview_simple_catalog/images/fallback.png";;
+            scope.fallbackSrc = urls.STATIC_URL + "cartoview_simple_catalog/images/fallback.png";
             // element.html(template);
             // $compile(element.contents())(scope);
 
@@ -137,9 +137,12 @@ angular.module('cartoview.catalog').directive('backgroundImage', function() {
         link: function (scope, element, attrs) {
             scope.$watch('backgroundImage',function () {
                 var url = scope.backgroundImage;
-                element.css({
-                    'background-image': 'url(' + url + ')'
-                });
+                if(url){
+                    element.css({
+                        'background-image': 'url(' + url + ')'
+                    });
+                }
+
             });
 
         }
