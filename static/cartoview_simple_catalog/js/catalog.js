@@ -38,7 +38,6 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
             // $compile(element.contents())(scope);
 
             var url  = urls.APPS_BASE_URL + 'cartoview_simple_catalog/' + attrs.catalogId + "/data/";
-
             scope.currentSearchText = "";
             scope.search = {
                 text: ""

@@ -1,13 +1,15 @@
 .keywords-select-header {
-    }
-  .keywords-select-header .keywords-header-searchbox {
+}
+
+.keywords-select-header .keywords-header-searchbox {
     border: none;
     outline: none;
     height: 100%;
     width: 100%;
     padding: 0;
-  }
-  .keywords-select-header .keywords-select-header {
+}
+
+.keywords-select-header .keywords-select-header {
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(0, 0, 0, 0.12);
     padding-left: 10.667px;
     height: 48px;
@@ -16,66 +18,77 @@
     display: flex;
     align-items: center;
     width: auto;
-  }
-  .keywords-select-header md-content._md {
+}
+
+.keywords-select-header md-content._md {
     max-height: 240px;
-  }
+}
 
-    md-tabs {
-      background: #f6f6f6;
-      border: 1px solid #e1e1e1;
-    }
+md-tabs {
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1;
+}
 
-    md-tabs md-tabs-wrapper {
-      background: white;
-    }
+md-tabs md-tabs-wrapper {
+    background: white;
+}
 
-    .md-tab md-icon {
-        visibility: hidden;
-    }
-    .md-tab.md-active md-icon {
-        visibility: visible;
-    }
+.md-tab md-icon {
+    visibility: hidden;
+}
 
-    .md-chips .md-chip{
-        height: 60px;
-        border-radius: 0;
-        padding: 0 0;
-    }
-    span.item-title{
-        padding: 0px 10px;
-    }
-    span.item-type{
-        position: absolute;
-        text-transform: uppercase;
-        background-color: #444;
-        color: #fff;
-        bottom: 0;
-        left: 0;
-        padding: 2px;
-        font-size: 10px;
-        font-weight: bold;
-        display: inline-block;
-        line-height: 10px;
-    }
-    img.item-img{
-        height: 60px;
-    }
-    .md-chips .md-chip-input-container md-autocomplete{
-        min-width:400px;
-    }
-    .item-tpl{
-        position: relative;
-        margin: 5px;
-    }
-    .add-item-btn{
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-    }
-    .catalog-one-by-one-list-ct{
-        min-height: 120px;
-    }
+.md-tab.md-active md-icon {
+    visibility: visible;
+}
+
+.md-chips .md-chip {
+    height: 60px;
+    border-radius: 0;
+    padding: 0 0;
+}
+
+span.item-title {
+    padding: 0px 10px;
+}
+
+span.item-type {
+    position: absolute;
+    text-transform: uppercase;
+    background-color: #444;
+    color: #fff;
+    bottom: 0;
+    left: 0;
+    padding: 2px;
+    font-size: 10px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 10px;
+}
+
+img.item-img {
+    width: 100%;
+    height: auto;
+}
+
+.md-chips .md-chip-input-container md-autocomplete {
+    min-width: 400px;
+}
+
+.item-tpl {
+    position: relative;
+    margin: 5px;
+}
+
+.add-item-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.catalog-one-by-one-list-ct {
+    min-height: 120px;
+}
+
 .autocomplete-resources-list.md-autocomplete-suggestions li {
     /* font-size: 14px; */
     overflow: hidden;
@@ -88,56 +101,68 @@
     /* text-overflow: ellipsis; */
     height: 61px;
 }
-.catalog-selector-dialog{
+
+.catalog-selector-dialog {
     min-width: 80%;
     min-height: 80%;
 }
-.catalog-selector-item{
+
+.catalog-selector-item {
     cursor: pointer;
 }
-.catalog-selector-item.selected{
+
+.catalog-selector-item.selected {
     background-color: rgba(63, 81, 181, 0.8);
     color: #ffffff;
 }
-.catalog-selector-check{
+
+.catalog-selector-check {
     padding: 5px;
     border-radius: 50%;
     margin: 0 10px;
 
 }
-.catalog-selector-check.selected{
-    background-color: rgb(250,250,250);
+
+.catalog-selector-check.selected {
+    background-color: rgb(250, 250, 250);
 }
-.catalog-selector-check .material-icons{
+
+.catalog-selector-check .material-icons {
     color: #ffffff;
     font-weight: bold;
 }
-.catalog-selector-check.selected .material-icons{
-    color: rgb(121,134,203);
+
+.catalog-selector-check.selected .material-icons {
+    color: rgb(121, 134, 203);
 }
 
-.image-picker-image-ct{
-    height:128px;
-    width:128px;
+.image-picker-image-ct {
+    height: 128px;
+    width: 128px;
     margin: 5px;
     background-image: url("../images/image-picker-bg.png");
     cursor: pointer;
 }
+
 .image-picker-image-ct.header {
-    width:320px;
+    width: 320px;
 }
-.image-picker-image-ct.selected{
+
+.image-picker-image-ct.selected {
     border: solid 3px rgba(63, 81, 181, 1);
 }
-.image-picker-image-ct img{
+
+.image-picker-image-ct img {
     max-width: 100%;
     max-height: 100%;
 }
-.image-picker-dialog-content{
+
+.image-picker-dialog-content {
     position: relative;
     padding-bottom: 120px;
 }
-.image-picker-add-form{
+
+.image-picker-add-form {
     position: absolute;
     bottom: 0;
     left: 0;

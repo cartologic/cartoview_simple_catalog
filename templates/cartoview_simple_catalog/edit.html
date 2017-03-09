@@ -1,4 +1,4 @@
-{% extends "cartoview/base.html" %}
+{% extends "cartoview_simple_catalog/base.html" %}
 
 {% block title %} {{ catalog.title }} — {{ block.super }} {% endblock %}
 {% block styles %}
@@ -13,7 +13,8 @@
     <script type="text/javascript" src="{{ STATIC_URL }}cartoview_simple_catalog/js/image-picker.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}vendor/angular-resource/angular-resource.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}vendor/ng-image-appear/dist/ng-image-appear.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}vendor/lf-ng-md-file-input/dist/lf-ng-md-file-input.min.js"></script>
+    <script type="text/javascript"
+            src="{{ STATIC_URL }}vendor/lf-ng-md-file-input/dist/lf-ng-md-file-input.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/app.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/services.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/directives.js"></script>
@@ -25,7 +26,7 @@
             'cartoview.userEngage'
         ]);
 
-        catalogEditApp.config(function($httpProvider){
+        catalogEditApp.config(function ($httpProvider) {
             $httpProvider.defaults.xsrfCookieName = 'csrftoken';
             $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
         });
@@ -36,113 +37,126 @@
 {% endblock %}
 {% block body_directives %}ng-app="catalogEditApp" ng-controller="catalogEditController"{% endblock %}
 {% block body %}
-<div layout-align="center center"
-     layout="row">
-    <div flex="100"  flex-gt-md="80" layout="column" class="md-padding">
-        <h2>Create Your Simple Catalog</h2>
-        <md-input-container>
-            <label>Title</label>
-            <input ng-model="catalog.title" placeholder="Catalog Title" name="title">
-        </md-input-container>
-        <md-input-container>
-            <label>Sub Title</label>
-            <input ng-model="configObj.subTitle" placeholder="Catalog Sub Title" name="subtitle">
-        </md-input-container>
-        <md-input-container>
-            <label>Abstract</label>
-            <textarea  ng-model="catalog.abstract" placeholder="Catalog Abstract" name="abstract"></textarea>
-        </md-input-container>
+    <div layout-align="center center"
+         layout="row">
+        <div flex="100" flex-gt-md="80" layout="column" class="md-padding">
+            <h2>Create Your Simple Catalog</h2>
+            <md-input-container>
+                <label>Title</label>
+                <input ng-model="catalog.title" placeholder="Catalog Title" name="title">
+            </md-input-container>
+            <md-input-container>
+                <label>Sub Title</label>
+                <input ng-model="configObj.subTitle" placeholder="Catalog Sub Title" name="subtitle">
+            </md-input-container>
+            <md-input-container>
+                <label>Abstract</label>
+                <textarea ng-model="catalog.abstract" placeholder="Catalog Abstract" name="abstract"></textarea>
+            </md-input-container>
 
-        <div layout-padding>
-            <label>Logo</label>
-            <image-picker image-url="configObj.logo" selector="logo"></image-picker>
-        </div>
-        <div layout-padding>
-            <label>Header Image</label>
-            <image-picker image-url="configObj.headerImage" selector="header"></image-picker>
-        </div>
-<!--        <md-input-container>
-            <label>Logo</label>
-            <input ng-model="configObj.logo" placeholder="Logo Url" name="logo">
-        </md-input-container>
+            <div layout-padding>
+                <label>Logo</label>
+                <image-picker image-url="configObj.logo" selector="logo"></image-picker>
+            </div>
+            <div layout-padding>
+                <label>Header Image</label>
+                <image-picker image-url="configObj.headerImage" selector="header"></image-picker>
+            </div>
+            <!--        <md-input-container>
+                        <label>Logo</label>
+                        <input ng-model="configObj.logo" placeholder="Logo Url" name="logo">
+                    </md-input-container>
 
-        <md-input-container>
-            <label>Header Image</label>
-            <input ng-model="configObj.headerImage" placeholder="Header Image Url" name="headerImage">
-        </md-input-container>
-    -->
-        <h4>Select Catalog Items By:</h4>
-        <md-tabs  md-dynamic-height md-border-bottom md-autoselect md-selected="selectedTab">
-            <md-tab>
-                <md-tab-label>
-                    <md-icon>done</md-icon>
-                    <span>Dynamic Filter</span>
-                </md-tab-label>
-                <md-tab-body>
-                    <div layout="column" class="md-padding">
-                        <md-checkbox ng-model="configObj.layers"> Layers</md-checkbox>
-                        <md-checkbox ng-model="configObj.maps"> Maps</md-checkbox>
-                        <md-checkbox ng-model="configObj.apps">Apps</md-checkbox>
-                        <md-checkbox ng-model="configObj.documents">Documents</md-checkbox>
-                        <md-checkbox ng-model="configObj.featured">Featured</md-checkbox>
-                        <md-input-container>
-                            <label>Keywords</label>
-                            <md-select ng-model="configObj.keywords"
-                                md-on-close="clearKeywordsSearch()"
-                                data-md-container-class="keywords-select-header"
-                                multiple>
-                                <md-select-header class="keywords-select-header">
-                                    <input ng-model="keywordSearchTerm"
-                                        type="search"
-                                        placeholder="Search for a keyword.."
-                                        class="keywords-header-searchbox _md-text">
-                                </md-select-header>
-                                <md-optgroup label="Keywords">
-                                    {% verbatim %}
-                                    <md-option ng-value="keyword.id" ng-repeat="keyword in keywords | filter:keywordSearchTerm">{{keyword.name}}</md-option>
-                                    {% endverbatim %}
-                                </md-optgroup>
-                            </md-select>
-                        </md-input-container>
-                    </div>
-                </md-tab-body>
-            </md-tab>
-            <md-tab>
-                <md-tab-label>
-                    <md-icon>done</md-icon>
-                    <span>One By One</span>
-                </md-tab-label>
-                <md-tab-body>
-                    {% verbatim %}
-                    <div layout="row" layout-wrap layout-align="start start" class="catalog-one-by-one-list-ct">
-                        <div ng-repeat="item in oneByOne.selectedItems"
-                             layout="row" layout-align="start start" class="item-tpl md-whiteframe-1dp">
-                            <img class="item-img" ng-src="{{ item.thumbnail }}">
-                            <span class="item-title">{{item.title}}</span>
-                            <span class="item-type">{{item.type}}</span>
-                            <md-button ng-click="removeOneByOneItem(item)"><md-icon>clear</md-icon></md-button>
+                    <md-input-container>
+                        <label>Header Image</label>
+                        <input ng-model="configObj.headerImage" placeholder="Header Image Url" name="headerImage">
+                    </md-input-container>
+                -->
+            <h4>Select Catalog Items By:</h4>
+            <md-tabs md-dynamic-height md-border-bottom md-autoselect md-selected="selectedTab">
+                {#            <md-tab>#}
+                {#                <md-tab-label>#}
+                {#                    <md-icon>done</md-icon>#}
+                {#                    <span>Dynamic Filter</span>#}
+                {#                </md-tab-label>#}
+                {#                <md-tab-body>#}
+                {#                    <div layout="column" class="md-padding">#}
+                {#                        <md-checkbox ng-model="configObj.layers"> Layers</md-checkbox>#}
+                {#                        <md-checkbox ng-model="configObj.maps"> Maps</md-checkbox>#}
+                {#                        <md-checkbox ng-model="configObj.apps">Apps</md-checkbox>#}
+                {#                        <md-checkbox ng-model="configObj.documents">Documents</md-checkbox>#}
+                {#                        <md-checkbox ng-model="configObj.featured">Featured</md-checkbox>#}
+                {#                        <md-input-container>#}
+                {#                            <label>Keywords</label>#}
+                {#                            <md-select ng-model="configObj.keywords"#}
+                {#                                md-on-close="clearKeywordsSearch()"#}
+                {#                                data-md-container-class="keywords-select-header"#}
+                {#                                multiple>#}
+                {#                                <md-select-header class="keywords-select-header">#}
+                {#                                    <input ng-model="keywordSearchTerm"#}
+                {#                                        type="search"#}
+                {#                                        placeholder="Search for a keyword.."#}
+                {#                                        class="keywords-header-searchbox _md-text">#}
+                {#                                </md-select-header>#}
+                {#                                <md-optgroup label="Keywords">#}
+                {#                                    {% verbatim %}#}
+                {#                                    <md-option ng-value="keyword.id" ng-repeat="keyword in keywords | filter:keywordSearchTerm">{{keyword.name}}</md-option>#}
+                {#                                    {% endverbatim %}#}
+                {#                                </md-optgroup>#}
+                {#                            </md-select>#}
+                {#                        </md-input-container>#}
+                {#                    </div>#}
+                {#                </md-tab-body>#}
+                {#            </md-tab>#}
+                <md-tab>
+                    <md-tab-label>
+                        <md-icon>done</md-icon>
+                        <span>Items</span>
+                    </md-tab-label>
+                    <md-tab-body>
+                        {% verbatim %}
+                        <div layout="row" layout-wrap layout-align="start start" class="catalog-one-by-one-list-ct">
+                            <div flex="30"
+                                 ng-repeat="item in oneByOne.selectedItems"
+                                 layout="row" layout-align="start start" class="item-tpl md-whiteframe-1dp">
+                                <div flex="60">
+                                    <img class="item-img" ng-src="{{ item.thumbnail }}">
+                                    <span class="item-type" ng-if="item.type =='app'">{{ item.app }}</span>
+                                    <span class="item-type" ng-if="item.type !='app'">{{ item.type }}</span>
+                                </div>
+                                <div flex="30">
+                                    <span class="item-title">{{ item.title }}</span>
+                                </div>
+                                <md-button ng-click="removeOneByOneItem(item)">
+                                    <md-icon>clear</md-icon>
+                                </md-button>
+                            </div>
+
                         </div>
-                    </div>
-                    <md-button class="md-primary md-fab add-item-btn" ng-click="showResourcesDialog($event)"><md-icon>add</md-icon></md-button>
-                    {% endverbatim %}
-                </md-tab-body>
-            </md-tab>
-        </md-tabs>
-        <div class="md-padding"></div>
-        <md-checkbox ng-model="configObj.enablePaging">Enable Paging</md-checkbox>
-        <md-input-container ng-show="configObj.enablePaging">
-            <label>Items per page</label>
-            <input ng-model="configObj.itemsPerPage" placeholder="Items per page" type="number" min="1" max="100" step="1">
-        </md-input-container>
-        <md-checkbox ng-model="configObj.enableSearch">Enable Search</md-checkbox>
-        <div layout="row">
-            <md-button  class="md-raised md-primary" ng-click="save()">Save</md-button>
-            {% if catalog_id != 'null' %}
-                <md-button  class="md-raised" href="{% url 'appinstance_detail' catalog_id %}">Details</md-button>
-                <md-button  class="md-raised" href="{% url 'cartoview_simple_catalog.view' catalog_id %}">View</md-button>
-            {% endif %}
+                        <md-button class="md-primary md-fab add-item-btn" ng-click="showResourcesDialog($event)">
+                            <md-icon>add</md-icon>
+                        </md-button>
+                        {% endverbatim %}
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+            <div class="md-padding"></div>
+            <md-checkbox ng-model="configObj.enablePaging">Enable Paging</md-checkbox>
+            <md-input-container ng-show="configObj.enablePaging">
+                <label>Items per page</label>
+                <input ng-model="configObj.itemsPerPage" placeholder="Items per page" type="number" min="1" max="100"
+                       step="1">
+            </md-input-container>
+            <md-checkbox ng-model="configObj.enableSearch">Enable Search</md-checkbox>
+            <div layout="row">
+                <md-button class="md-raised md-primary" ng-click="save()">Save</md-button>
+                {% if catalog_id != 'null' %}
+                    <md-button class="md-raised" href="{% url 'appinstance_detail' catalog_id %}">Details</md-button>
+                    <md-button class="md-raised" href="{% url 'cartoview_simple_catalog.view' catalog_id %}">View
+                    </md-button>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
