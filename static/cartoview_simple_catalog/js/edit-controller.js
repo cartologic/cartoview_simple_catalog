@@ -107,7 +107,6 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
     var loadResources = function () {
         if (!promise) {
             var url = urls.APPS_BASE_URL + "cartoview_simple_catalog/resources/all/";
-            console.log(url)
             var params = {};
             if (catalogId) {
                 params.catalogId = catalogId;
@@ -145,22 +144,21 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
     function ResourcesDialogController($scope, $mdDialog, selectedItems, allResources) {
         $scope.selectedItems = selectedItems;
         $scope.allResources = allResources;
-        $scope.filters = ['layer', 'map', 'app', 'all'];
+        $scope.filters = ['layer', 'map', 'app', 'doc', 'all'];
+        $scope.currentPage = 0;
+        $scope.loadPages = function (page) {
+            console.log('Current page is : ' + page);
+        };
+        $scope.pages = (allResources.length) / 5;
+        $scope.getNumber = function (number) {
+            return new Array(parseInt(number));
+
+        };
+
         $scope.search = {};
         $scope.hide = function () {
             console.debug($scope.allResources);
             $mdDialog.hide();
-        };
-        $scope.applyfilter = function () {
-            console.log($scope.selectedFilters);
-            var filtered = [];
-            angular.forEach($scope.selectedFilters, function (filter) {
-                if (filter == 'Layers') {
-                    var found = $filter('getByProperty')('type', 'layer', allResources);
-                    console.log(found);
-                    $scope.selected = JSON.stringify(found);
-                }
-            });
         };
         $scope.cancel = function () {
             $mdDialog.cancel();

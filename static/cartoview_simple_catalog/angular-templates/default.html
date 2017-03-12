@@ -1,5 +1,5 @@
-<div class="catalog-ct" layout="column" layout-align="start center" background-image="catalog.config.headerImage">
-    <div class="catalog-header-ct" layout="column" layout-align="start center" >
+<div class="catalog-ct" layout="column" style="width: 100%" layout-align="start center" >
+    <div class="catalog-header-ct" layout="column" layout-align="start center" background-image="catalog.config.headerImage">
         <div layout="row" class="catalog-header" ng-class="{hasbg:catalog.config.headerImage}">
             <div ng-if="catalog.config.logo" layout="row" layout-align="center center" layout-padding>
                 <img ng-src="{{ catalog.config.logo }}">
@@ -25,8 +25,8 @@
                              md-items="item in []"
                              md-item-text="item.title"
                              placeholder="Search...">
-                <span md-highlight-text="search.text">{{item.title}}</span>
-             </md-autocomplete>
+                <span md-highlight-text="search.text">{{ item.title }}</span>
+            </md-autocomplete>
         </div>
         <div layout="row" layout-wrap>
             <div ng-repeat="item in catalog.items" flex="25" flex-sm="33" flex-xs="100" class="md-padding">
@@ -38,7 +38,8 @@
                    ng-href="{{ item.urls.view ||  item.urls.details }}"
                    title="{{ item.title }}">
                     <div class="catalog-item-image-ct" layout="row" layout-align="center center">
-                        <img ng-src="{{ item.thumbnail || fallbackSrc }}"  alt="{{ item.title }}" fallback-src="{{ fallbackSrc }}">
+                        <img ng-src="{{ item.thumbnail || fallbackSrc }}" alt="{{ item.title }}"
+                             fallback-src="{{ fallbackSrc }}">
                     </div>
 
                     <div class="catalog-item-title">
@@ -52,7 +53,7 @@
                        ng-repeat="page in getPageNumbers() track by $index"
                        ng-click="loadCatalog(page)"
                        ng-disabled="page == '...'"
-                        ng-class="{'md-primary':page==currentPage}">
+                       ng-class="{'md-primary':page==currentPage}">
                 {{ page }}
             </md-button>
         </div>
