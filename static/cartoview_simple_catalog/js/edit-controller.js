@@ -10,10 +10,10 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
             $scope.configObj = JSON.parse(appInstance.config);
             $scope.configObj.selectedIds = $scope.configObj.selectedIds || [];
 
-            if ($scope.configObj.selectionType == "onebyone") {
-                $scope.selectedTab = 1;
+            // if ($scope.configObj.selectionType == "onebyone") {
+                $scope.selectedTab = 0;
                 loadResources();
-            }
+            // }
         });
     }
     else {
@@ -36,9 +36,9 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
         };
     }
     $scope.save = function () {
-        $scope.configObj.selectionType = $scope.selectedTab == 0 ? "query" : "onebyone";
+        $scope.configObj.selectionType = $scope.selectedTab == 0 ? "onebyone" : "onebyone";
         $scope.configObj.selectedIds = [];
-        if ($scope.selectedTab == 1) {
+        if ($scope.selectedTab == 0) {
             angular.forEach($scope.oneByOne.selectedItems, function (item) {
                 $scope.configObj.selectedIds.push(item.id);
             });
@@ -86,9 +86,11 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
         if (initSelected) {
             angular.forEach(allResources, function (item) {
                 if ($scope.configObj.selectedIds.indexOf(item.id) == -1) {
-                    items.push(item)
+                    items.push(item);
+                    // $scope.oneByOne.selectedItems.push(item)
                 }
                 else {
+                    items.push(item);
                     $scope.oneByOne.selectedItems.push(item)
                 }
             });
