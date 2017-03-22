@@ -1,14 +1,15 @@
 /**
  * Created by kamal on 8/3/16.
- * pagination code copied from 
+ * pagination code copied from
  * https://github.com/michaelbromley/angularUtils/blob/1fdc15c084003ab7c16030e53dd0a85065ab8c69/src/directives/pagination/dirPagination.js
  */
 angular.module('cartoview.catalog', ['cartoview.base', 'cartoview.urlsHelper', 'dcbImgFallback']);
 
-angular.module('cartoview.catalog').directive('catalog', function (urls, $http, $q, $compile) {
+angular.module('cartoview.catalog').directive('catalog', function (urls, $http, $q, $compile, $mdDialog) {
     var paginationRange = 6;
+
     function calculatePageNumber(i, currentPage, totalPages) {
-        var halfWay = Math.ceil(paginationRange/2);
+        var halfWay = Math.ceil(paginationRange / 2);
         if (i === paginationRange) {
             return totalPages;
         } else if (i === 1) {
@@ -25,6 +26,7 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
             return i;
         }
     }
+
     return {
         restrict: 'E',
         transclude: true,
@@ -32,25 +34,40 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
         template: "<div><ng-include src='templateUrl'></ng-include></div>",
         link: function (scope, element, attrs) {
             var template = attrs.template || 'default';
-            scope.templateUrl = urls.STATIC_URL + "cartoview_simple_catalog/angular-templates/"+ template +".html";
+            scope.templateUrl = urls.STATIC_URL + "cartoview_simple_catalog/angular-templates/" + template + ".html";
             scope.fallbackSrc = urls.STATIC_URL + "cartoview_simple_catalog/images/fallback.png";
             // element.html(template);
             // $compile(element.contents())(scope);
 
-            var url  = urls.APPS_BASE_URL + 'cartoview_simple_catalog/' + attrs.catalogId + "/data/";
+            var url = urls.APPS_BASE_URL + 'cartoview_simple_catalog/' + attrs.catalogId + "/data/";
             scope.currentSearchText = "";
             scope.search = {
                 text: ""
             };
+            scope.showAlert = function (ev) {
+                // Appending dialog to document.body to cover sidenav in docs app
+                // Modal dialogs should fully cover application
+                // to prevent interaction outside of dialog
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .parent(angular.element(document.querySelector('#popupContainer')))
+                        .clickOutsideToClose(true)
+                        .title(scope.catalog.config.subTitle)
+                        .textContent(scope.catalog.abstract)
+                        .ariaLabel('Description')
+                        .ok('Close')
+                        .targetEvent(ev)
+                );
+            };
             scope.loadCatalog = function (page) {
-                if(page && scope.currentPage == page) return;
-                page  = page || 1;
+                if (page && scope.currentPage == page) return;
+                page = page || 1;
                 scope.currentPage = page;
 
                 var params = {
                     page: page
                 };
-                if(attrs.catalogId)
+                if (attrs.catalogId)
                     params.catalogId = attrs.catalogId;
                 scope.currentSearchText = params.text = scope.search.text;
 
@@ -60,7 +77,7 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
             };
             scope.getPageNumbers = function () {
                 var pages = [];
-                if(scope.catalog) {
+                if (scope.catalog) {
                     var totalPages = scope.catalog.pages;
                     var halfWay = Math.ceil(paginationRange / 2);
                     var position;
@@ -91,7 +108,7 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
             scope.loadCatalog();
             scope.doSearch = function (event) {
                 var key = typeof event.which === "undefined" ? event.keyCode : event.which;
-                if(key == 13 && scope.search.text != scope.currentSearchText){
+                if (key == 13 && scope.search.text != scope.currentSearchText) {
                     scope.loadCatalog();
                 }
             };
@@ -99,14 +116,14 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
             scope.loadAutocomplete = function (text) {
                 var url = urls.APPS_BASE_URL + 'cartoview_simple_catalog/' + attrs.catalogId + "/autocomplete/";
                 var params = {
-                    text:text
+                    text: text
                 };
-                return $http.get(url, {params:params}).then(function (res) {
+                return $http.get(url, {params: params}).then(function (res) {
                     return res.data;
                 })
             };
             scope.searchTextChange = function () {
-                if(scope.search.text == "" && scope.currentSearchText != "") scope.loadCatalog();
+                if (scope.search.text == "" && scope.currentSearchText != "") scope.loadCatalog();
             }
 
         }
@@ -128,15 +145,15 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
 //         }
 //     };
 // });
-angular.module('cartoview.catalog').directive('backgroundImage', function() {
+angular.module('cartoview.catalog').directive('backgroundImage', function () {
     return {
         scope: {
             backgroundImage: '=backgroundImage'
         },
         link: function (scope, element, attrs) {
-            scope.$watch('backgroundImage',function () {
+            scope.$watch('backgroundImage', function () {
                 var url = scope.backgroundImage;
-                if(url){
+                if (url) {
                     element.css({
                         'background-image': 'url(' + url + ')'
                     });
