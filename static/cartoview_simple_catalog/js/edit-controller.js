@@ -2,7 +2,7 @@
  * Created by kamal on 8/3/16.
  */
 catalogEditApp.controller('catalogEditController', function ($scope, $http, catalogId,
-                                                             AppInstance, urls, $element, $q, $mdDialog, $filter) {
+                                                             AppInstance, urls, $element, $q, $mdDialog, $filter, $mdColorPalette) {
     $scope.selectedTab = 0; // tab index for catalog items selection type
     if (catalogId) {
         AppInstance.get({instanceId: catalogId}).$promise.then(function (appInstance) {
@@ -11,8 +11,8 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
             $scope.configObj.selectedIds = $scope.configObj.selectedIds || [];
 
             // if ($scope.configObj.selectionType == "onebyone") {
-                $scope.selectedTab = 0;
-                loadResources();
+            $scope.selectedTab = 0;
+            loadResources();
             // }
         });
     }
@@ -32,7 +32,9 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
             enablePaging: false,
             itemsPerPage: 10,
             enableSearch: false,
-            selectedIds: []
+            selectedIds: [],
+            textColor:"#ffff",
+            toolbarColor:"#ffff"
         };
     }
     $scope.save = function () {
@@ -46,7 +48,7 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
         $scope.catalog.config = JSON.stringify($scope.configObj);
         if (catalogId) {
             $scope.catalog.$update(function (res) {
-                console.debug(res)
+                // console.debug(res)
             })
         }
         else {
@@ -181,4 +183,26 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
             }
         };
     }
+
+    $scope.pickeroptions = {
+        label: "Choose a Toolbar color",
+        icon: "brush",
+        default: "#f00",
+        genericPalette: true,
+        materialPalette: true,
+        spectrum: true,
+        history: false,
+        defaultTab: "materialPalette",
+    };
+    $scope.textpickeroptions = {
+        label: "Choose a text color",
+        icon: "brush",
+        default: "#fff",
+        materialPalette: true,
+        genericPalette: true,
+        spectrum: true,
+        history: false,
+    };
+
+
 });

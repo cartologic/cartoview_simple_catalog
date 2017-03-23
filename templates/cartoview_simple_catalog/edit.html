@@ -1,10 +1,13 @@
 {% extends "cartoview_simple_catalog/base.html" %}
-
+{% load static %}
 {% block title %} {{ catalog.title }} — {{ block.super }} {% endblock %}
 {% block styles %}
     <link rel="stylesheet" href="{{ STATIC_URL }}cartoview_simple_catalog/css/config.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}user_engage/css/main.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}vendor/lf-ng-md-file-input/dist/lf-ng-md-file-input.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}cartoview_simple_catalog/css/mdColorPicker.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 {% endblock %}
 
 {% block scripts %}
@@ -18,12 +21,15 @@
     <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/app.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/services.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/directives.js"></script>
+    <script src="{{ STATIC_URL }}cartoview_simple_catalog/js/tinycolor-min.js"></script>
+    <script src="{{ STATIC_URL }}cartoview_simple_catalog/js/mdColorPicker.min.js"></script>
     <script type="text/javascript">
         var catalogEditApp = angular.module('catalogEditApp', [
             'cartoview.base',
             'cartoview.appInstances',
             'cartoview.catalog.imagePicker',
-            'cartoview.userEngage'
+            'cartoview.userEngage',
+            'mdColorPicker'
         ]);
 
         catalogEditApp.config(function ($httpProvider) {
@@ -58,10 +64,10 @@
                 <label>Logo</label>
                 <image-picker image-url="configObj.logo" selector="logo"></image-picker>
             </div>
-            <div layout-padding>
+            <!--<div layout-padding>
                 <label>Header Image</label>
                 <image-picker image-url="configObj.headerImage" selector="header"></image-picker>
-            </div>
+            </div>-->
             <!--        <md-input-container>
                         <label>Logo</label>
                         <input ng-model="configObj.logo" placeholder="Logo Url" name="logo">
@@ -72,9 +78,27 @@
                         <input ng-model="configObj.headerImage" placeholder="Header Image Url" name="headerImage">
                     </md-input-container>
                 -->
+            {% verbatim %}
+            <div md-color-picker
+                 label="Choose a Toolbar color"
+                 icon="brush"
+                 materialPalette="true"
+                 default="#f00"
+                 md-color-generic-palette="true"
+                 defaultTab="materialPalette"
+                 md-color-history="false" ng-model="configObj.toolbarColor"></div>
+            <div md-color-picker
+                 label="Choose a Title color"
+                 icon="brush"
+                 materialPalette="true"
+                 default="#f00"
+                 md-color-generic-palette="true"
+                 defaultTab="materialPalette"
+                 md-color-history="false" ng-model="configObj.textColor"></div>
+            {% endverbatim %}
             <h4>Select Catalog Items By:</h4>
             <md-tabs md-dynamic-height md-border-bottom md-autoselect md-selected="selectedTab">
-                {#            <md-tab>#}
+                <!--  {#            <md-tab>#}
                 {#                <md-tab-label>#}
                 {#                    <md-icon>done</md-icon>#}
                 {#                    <span>Dynamic Filter</span>#}
@@ -107,7 +131,7 @@
                 {#                        </md-input-container>#}
                 {#                    </div>#}
                 {#                </md-tab-body>#}
-                {#            </md-tab>#}
+                {#            </md-tab>#}-->
                 <md-tab>
                     <md-tab-label>
                         <md-icon>done</md-icon>

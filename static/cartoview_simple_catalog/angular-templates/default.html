@@ -11,14 +11,14 @@
             </div>
         </div>
     </div>-->
-    <md-toolbar class="md-hue-2">
+    <md-toolbar style="background: {{ catalog.config.toolbarColor }}" class="md-hue-2">
         <div class="md-toolbar-tools">
             <!--<md-button class="md-icon-button" aria-label="Settings">
                 <i class="material-icons">menu</i>
             </md-button>-->
             <span><img style="height: 40px; margin-right: 10px" ng-src="{{ catalog.config.logo }}"></span>
 
-            <span flex md-truncate>{{ catalog.title }}</span>
+            <span style="color: {{ catalog.config.textColor }}" flex md-truncate>{{ catalog.title }}</span>
             <div>
                 <md-autocomplete
                         type="search"

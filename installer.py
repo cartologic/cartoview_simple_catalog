@@ -1,7 +1,7 @@
 __author__ = 'kamal'
 
 info = dict(
-    title="Catalog",
+    title="Gallary",
     description="Show a filtered list of maps and embed this list in your pages.",
     author='Cartologic',
     home_page='http://cartologic.com/cartoview/apps/simple_catalog',
