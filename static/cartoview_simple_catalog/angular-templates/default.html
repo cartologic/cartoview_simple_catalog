@@ -1,4 +1,4 @@
-<div class="catalog-ct" layout="column" style="width: 100%" layout-align="start center">
+<div class="catalog-ct" layout="column" style="width: 100%;" layout-align="start center">
     <!-- <div class="catalog-header-ct" layout="column" style="height: 350px;" layout-align="start center" background-image="catalog.config.headerImage">
         <div layout="row" class="catalog-header" style="margin-top: auto;margin-bottom: auto;" ng-class="{hasbg:catalog.config.headerImage}">
             <div ng-if="catalog.config.logo" layout="row" layout-align="center center" layout-padding>
@@ -34,7 +34,7 @@
             </div>
             <md-menu md-position-mode="target-right target">
                 <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
-                    <i class="material-icons">link</i>
+                    <i class="material-icons" style="color: {{ catalog.config.textColor }}">link</i>
                 </md-button>
                 <md-menu-content width="4">
                     <md-menu-item>
@@ -75,6 +75,8 @@
                     <div class="catalog-item-image-ct" layout="row" layout-align="center center">
                         <img ng-src="{{ item.thumbnail || fallbackSrc }}" alt="{{ item.title }}"
                              fallback-src="{{ fallbackSrc }}">
+                        <span class="item-type" ng-if="item.type =='app'">{{ item.app }}</span>
+                        <span class="item-type" ng-if="item.type !='app'">{{ item.type }}</span>
                     </div>
 
                     <div class="catalog-item-title">

@@ -36,6 +36,7 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
             var template = attrs.template || 'default';
             scope.templateUrl = urls.STATIC_URL + "cartoview_simple_catalog/angular-templates/" + template + ".html";
             scope.fallbackSrc = urls.STATIC_URL + "cartoview_simple_catalog/images/fallback.png";
+            scope.patternUrl =  urls.STATIC_URL + "cartoview_simple_catalog/images/patterns/confectionary.png";
             // element.html(template);
             // $compile(element.contents())(scope);
 
@@ -69,7 +70,7 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
                     fullscreen: false, // Only for -xs, -sm breakpoints.,
                     locals: {
                         catalog: scope.catalog,
-                        subtitle: scope.catalog.config.subTitle
+                        config: scope.catalog.config
                     }
                 }).then(function (answer) {
                     scope.status = 'You said the information was "' + answer + '".';
@@ -77,10 +78,12 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
                     scope.status = 'You cancelled the dialog.';
                 });
             };
-            function DialogController($scope, $mdDialog, catalog, subtitle) {
+            function DialogController($scope, $mdDialog, catalog, config) {
                 $scope.title = catalog.title;
                 $scope.abstract = catalog.abstract;
-                $scope.subtitle = subtitle;
+                $scope.subtitle = config.subTitle;
+                $scope.config = config;
+
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
