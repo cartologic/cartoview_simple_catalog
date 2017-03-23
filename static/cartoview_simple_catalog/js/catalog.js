@@ -44,21 +44,56 @@ angular.module('cartoview.catalog').directive('catalog', function (urls, $http, 
             scope.search = {
                 text: ""
             };
-            scope.showAlert = function (ev) {
-                // Appending dialog to document.body to cover sidenav in docs app
-                // Modal dialogs should fully cover application
-                // to prevent interaction outside of dialog
-                $mdDialog.show(
-                    $mdDialog.alert()
-                        .parent(angular.element(document.querySelector('#popupContainer')))
-                        .clickOutsideToClose(true)
-                        .title(scope.catalog.config.subTitle)
-                        .textContent(scope.catalog.abstract)
-                        .ariaLabel('Description')
-                        .ok('Close')
-                        .targetEvent(ev)
-                );
+            // scope.showAlert = function (ev) {
+            //     // Appending dialog to document.body to cover sidenav in docs app
+            //     // Modal dialogs should fully cover application
+            //     // to prevent interaction outside of dialog
+            //     $mdDialog.show(
+            //         $mdDialog.alert()
+            //             .parent(angular.element(document.querySelector('#popupContainer')))
+            //             .clickOutsideToClose(true)
+            //             .title(scope.catalog.config.subTitle)
+            //             .textContent(scope.catalog.abstract)
+            //             .ariaLabel('Description')
+            //             .ok('Close')
+            //             .targetEvent(ev)
+            //     );
+            // };
+            scope.showAdvanced = function (ev) {
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: urls.STATIC_URL + "cartoview_simple_catalog/angular-templates/about_dialog.html",
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: false, // Only for -xs, -sm breakpoints.,
+                    locals: {
+                        catalog: scope.catalog,
+                        subtitle: scope.catalog.config.subTitle
+                    }
+                }).then(function (answer) {
+                    scope.status = 'You said the information was "' + answer + '".';
+                }, function () {
+                    scope.status = 'You cancelled the dialog.';
+                });
             };
+            function DialogController($scope, $mdDialog, catalog, subtitle) {
+                $scope.title = catalog.title;
+                $scope.abstract = catalog.abstract;
+                $scope.subtitle = subtitle;
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
             scope.loadCatalog = function (page) {
                 if (page && scope.currentPage == page) return;
                 page = page || 1;
