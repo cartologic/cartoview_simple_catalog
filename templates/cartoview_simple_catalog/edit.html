@@ -23,14 +23,19 @@
     <script type="text/javascript" src="{{ STATIC_URL }}user_engage/js/directives.js"></script>
     <script src="{{ STATIC_URL }}cartoview_simple_catalog/js/tinycolor-min.js"></script>
     <script src="{{ STATIC_URL }}cartoview_simple_catalog/js/mdColorPicker.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-cookies.js" type="text/javascript"></script>
     <script type="text/javascript">
         var catalogEditApp = angular.module('catalogEditApp', [
             'cartoview.base',
+            'ngCookies',
             'cartoview.appInstances',
             'cartoview.catalog.imagePicker',
             'cartoview.userEngage',
             'mdColorPicker'
         ]);
+        catalogEditApp.run(function run($http, $cookies) {
+            $http.defaults.headers.put['X-CSRFToken'] = $cookies.get('csrftoken');
+        });
 
         catalogEditApp.config(function ($httpProvider) {
             $httpProvider.defaults.xsrfCookieName = 'csrftoken';

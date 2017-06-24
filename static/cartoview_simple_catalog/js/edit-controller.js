@@ -47,12 +47,13 @@ catalogEditApp.controller('catalogEditController', function ($scope, $http, cata
         }
         $scope.catalog.config = JSON.stringify($scope.configObj);
         if (catalogId) {
+            $scope.catalog.appName = 'cartoview_simple_catalog';
             $scope.catalog.$update(function (res) {
                 // console.debug(res)
             })
         }
         else {
-            // $scope.catalog.appName = 'simple_catalog';
+            $scope.catalog.appName = 'cartoview_simple_catalog';
             // $scope.catalog.$save(function (res) {
             //     console.debug(res)
             // })
