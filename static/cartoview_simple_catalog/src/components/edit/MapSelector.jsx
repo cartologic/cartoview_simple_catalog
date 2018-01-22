@@ -13,11 +13,11 @@ const UserMapSwitch = (props) => {
     return (
         <div className="col-xs-8 col-sm-4 col-md-4 col-lg-4 col-xs-offset-2 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
             <div className="flex-display">
-                <p>{'All Maps'}</p>
+                <p>{'All Resources'}</p>
                 <div>
                     <Switch on={userMaps} onClick={UserMapsChanged} />
                 </div>
-                <p>{'My Maps'}</p>
+                <p>{'My Resources'}</p>
             </div>
         </div>
     )
@@ -55,8 +55,8 @@ export default class MapSelector extends React.Component {
         return "It's OK"
     }
     shouldComponentUpdate(nextProps, nextState) {
-        const { userMaps, maps, selectedMap } = this.props
-        if (nextProps.userMaps === userMaps && nextProps.maps === maps && selectedMap === nextProps.selectedMap) {
+        const { userMaps, maps, selectedMaps } = this.props
+        if (nextProps.userMaps === userMaps && nextProps.maps === maps && selectedMaps === nextProps.selectedMaps) {
             return false
         }
         return true
@@ -78,7 +78,7 @@ export default class MapSelector extends React.Component {
         }
     }
     render() {
-        const { loading, selectedMap, selectMap, maps, userMaps, totalMaps, UserMapsChanged, limit, urls, searchEnabled } = this.props
+        const { loading,selectedMaps, selectMap, maps, userMaps, totalMaps, UserMapsChanged, limit, urls, searchEnabled } = this.props
         return (
             <div className="grid">
                 <div className="row row-fix">
@@ -89,7 +89,7 @@ export default class MapSelector extends React.Component {
                 </div>
                 {loading && <Loader />}
                 {!loading && maps.map((map, index) => {
-                    return <MapCard key={index} map={map} selectedMap={selectedMap} selectMap={selectMap} />
+                    return <MapCard key={index} urls={urls} map={map} selectedMaps={selectedMaps} selectMap={selectMap} />
 
                 })}
                 {(!loading && !searchEnabled && maps.length == 0 && userMaps) && <div className="row">
@@ -120,7 +120,7 @@ export default class MapSelector extends React.Component {
 }
 MapSelector.propTypes = {
     maps: PropTypes.array,
-    selectedMap: PropTypes.object,
+    selectedMaps: PropTypes.array.isRequired,
     selectMap: PropTypes.func.isRequired,
     getMaps: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,

@@ -13,14 +13,14 @@ import URL from 'Source/utils/URL'
 
 const limit = 9
 class EditPage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.urls = new URL(this.props.urls.proxy,this.props.urls.MapsAPI)
+    constructor( props ) {
+        super( props )
+        this.urls = new URL( this.props.urls.proxy, this.props.urls.MapsAPI )
         const { config } = this.props
         this.state = {
             maps: [],
             userMaps: true,
-            selectedMap: config ? config.map : null,
+            selectedMaps: config ? config.config.resources : [],
             loading: false,
             totalMaps: 0,
             title: config ? config.title : null,
@@ -29,7 +29,7 @@ class EditPage extends React.Component {
             keywords: [],
             saving: false,
             errors: [],
-            profiles:[],
+            profiles: [],
             instanceId: config ? config.id : null,
             searchEnabled: false
         }
@@ -41,75 +41,90 @@ class EditPage extends React.Component {
     }
     UserMapsChanged = () => {
         const { userMaps } = this.state
-        this.setState({ userMaps: !userMaps }, this.getMaps)
+        this.setState( { userMaps: !userMaps }, this.getMaps )
     }
-    getMaps = (offset = 0, limit = limit) => {
-        this.setState({ loading: true })
+    getMaps = ( offset = 0, limit = limit ) => {
+        this.setState( { loading: true } )
         const { username } = this.props
         const { userMaps } = this.state
-        const url = this.urls.getMapApiURL(username, userMaps, limit,
-            offset)
-        doGet(url).then(result => {
-            this.setState({
+        const url = this.urls.getMapApiURL( username, userMaps, limit,
+            offset )
+        doGet( url ).then( result => {
+            this.setState( {
                 maps: result.objects,
                 loading: false,
                 totalMaps: result.meta.total_count
-            })
-        })
+            } )
+        } )
     }
-    searchMapById = (id) => {
+    searchMapById = ( id ) => {
         const { maps } = this.state
         let result = null
-        for (let map of maps) {
-            if (map.id === id) {
+        for ( let map of maps ) {
+            if ( map.id === id ) {
                 result = map
                 break
             }
         }
         return result
     }
-    handleSearchMode = (bool) => {
-        this.setState({ searchEnabled: bool })
+    handleSearchMode = ( bool ) => {
+        this.setState( { searchEnabled: bool } )
     }
-    search = (text) => {
-        this.setState({ loading: true, searchEnabled: true })
+    search = ( text ) => {
+        this.setState( { loading: true, searchEnabled: true } )
         const { username } = this.props
         const { userMaps } = this.state
-        const url = this.urls.getMapApiSearchURL(username, userMaps, text)
-        doGet(url).then(result => {
-            this.setState({
+        const url = this.urls.getMapApiSearchURL( username, userMaps,
+            text )
+        doGet( url ).then( result => {
+            this.setState( {
                 maps: result.objects,
                 loading: false
-            })
-        })
+            } )
+        } )
     }
     getKeywords = () => {
-        this.setState({ loading: true })
+        this.setState( { loading: true } )
         const { urls } = this.props
         const url = urls.keywordsAPI
-        doGet(url).then(result => {
-            this.setState({ keywords: result.objects, loading: false })
-        })
+        doGet( url ).then( result => {
+            this.setState( { keywords: result.objects, loading: false } )
+        } )
     }
     getProfiles = () => {
-        this.setState({ loading: true })
+        this.setState( { loading: true } )
         const { urls } = this.props
         const url = urls.profilesAPI
-        doGet(url).then(result => {
-            this.setState({ profiles: result.objects, loading: false })
-        })
+        doGet( url ).then( result => {
+            this.setState( { profiles: result.objects, loading: false } )
+        } )
     }
-    setStepRef = (name, ref) => {
-        this[name] = ref
+    setStepRef = ( name, ref ) => {
+        this[ name ] = ref
     }
-    selectMap = (map) => {
-        this.setState({ selectedMap: map })
+    removeFrom = ( array, element ) => {
+        const index = array.indexOf( element )
+        if ( index > -1 ) {
+            array.splice( index, 1 )
+        }
+        return array
+    }
+    selectMap = ( map ) => {
+        const { selectedMaps } = this.state
+        let selected = [ ...selectedMaps ]
+        if ( selected.includes( map.id ) ) {
+            selected = this.removeFrom( selected, map.id )
+        } else {
+            selected.push( map.id )
+        }
+        this.setState( { selectedMaps: selected } )
     }
     getSteps = () => {
         const {
             maps,
             loading,
-            selectedMap,
+            selectedMaps,
             userMaps,
             totalMaps,
             config,
@@ -120,15 +135,16 @@ class EditPage extends React.Component {
             searchEnabled,
             profiles
         } = this.state
+        const { urls } = this.props
         let steps = [
             {
-                title: "Select Map",
+                title: "Select Resources",
                 component: MapSelector,
                 ref: 'mapStep',
                 hasErrors: false,
                 props: {
                     maps,
-                    selectedMap,
+                    selectedMaps,
                     loading,
                     selectMap: this.selectMap,
                     getMaps: this.getMaps,
@@ -136,6 +152,7 @@ class EditPage extends React.Component {
                     totalMaps,
                     UserMapsChanged: this.UserMapsChanged,
                     limit,
+                    urls,
                     search: this.search,
                     handleSearchMode: this.handleSearchMode,
                     searchEnabled
@@ -149,7 +166,7 @@ class EditPage extends React.Component {
                 props: {
                     abstract,
                     title,
-                    selectedMap,
+                    selectedMaps,
                     config,
                     allKeywords: keywords,
                     instanceId
@@ -168,71 +185,66 @@ class EditPage extends React.Component {
             }
         ]
         const { errors } = this.state
-        errors.map(error => steps[error].hasError = true)
+        errors.map( error => steps[ error ].hasError = true )
         return steps
     }
-    toArray = (arrayOfStructs) => {
+    toArray = ( arrayOfStructs ) => {
         let arr = []
-        if (arrayOfStructs) {
-            arrayOfStructs.forEach((struct) => {
-                arr.push(struct.value)
-            }, this)
+        if ( arrayOfStructs ) {
+            arrayOfStructs.forEach( ( struct ) => {
+                arr.push( struct.value )
+            }, this )
         }
         return arr
     }
     prepareServerData = () => {
         const keywords = this.generalStep.getComponentValue().keywords
-        const { selectedMap } = this.state
-        let finalConfiguration = {
-            map: selectedMap.id,
-            ...this.generalStep.getComponentValue(),
+        const { selectedMaps } = this.state
+        let finalConfiguration = { ...this.generalStep.getComponentValue(),
             config: {
-                ...this.toolsStep.getComponentValue(),
+                resources: selectedMaps
             },
-            access:this.accessConfigurationStep.getComponentValue(),
-            keywords: this.toArray(keywords)
+            access: this.accessConfigurationStep.getComponentValue(),
+            keywords: this.toArray( keywords )
         }
         return finalConfiguration
-
     }
     sendConfiguration = () => {
         const { urls } = this.props
         const { instanceId, errors } = this.state
-        if (errors.length == 0) {
-            this.setState({ saving: true })
-            const url = instanceId ? urls.editURL(instanceId) : urls.newURL
-            const data = JSON.stringify(this.prepareServerData())
-            doPost(url, data, { "Content-Type": "application/json; charset=UTF-8" }).then(result => {
-                this.setState({
-                    instanceId: result.id,
-                    saving: false
-                })
-            })
-
+        if ( errors.length == 0 ) {
+            this.setState( { saving: true } )
+            const url = instanceId ? urls.editURL( instanceId ) : urls
+                .newURL
+            const data = JSON.stringify( this.prepareServerData() )
+            doPost( url, data, { "Content-Type": "application/json; charset=UTF-8" } )
+                .then( result => {
+                    this.setState( {
+                        instanceId: result.id,
+                        saving: false
+                    } )
+                } )
         }
-
     }
-    showComponentsErrors = (callBack) => {
+    showComponentsErrors = ( callBack ) => {
         let errors = []
         const steps = this.getSteps()
-        steps.map((step, index) => {
-            const formValue = this[step.ref].getComponentValue()
-            if (!formValue) {
-                errors.push(index)
+        steps.map( ( step, index ) => {
+            const formValue = this[ step.ref ].getComponentValue()
+            if ( !formValue ) {
+                errors.push( index )
             }
-        })
-        this.setState({ errors }, callBack)
+        } )
+        this.setState( { errors }, callBack )
     }
     save = () => {
-        this.showComponentsErrors(this.sendConfiguration)
-
+        this.showComponentsErrors( this.sendConfiguration )
     }
     validate = () => {
-        this.showComponentsErrors(() => { })
+        this.showComponentsErrors( () => {} )
     }
     getChildrenProps = () => {
-        const props = {
-            ...this.state,
+        const props = { ...this.state,
             ...this.props,
             steps: this.getSteps(),
             setStepRef: this.setStepRef,

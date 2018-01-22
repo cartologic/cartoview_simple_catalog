@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import classNames from 'classnames'
 const ActionBar = (props) => {
-    const { save, selectedMap, instanceId, urls, saving,validate } = props
+    const { save, selectedMaps, instanceId, urls, saving, validate } = props
     const extraProps = {
-        disabled: selectedMap && !saving ? false : true
+        disabled: selectedMaps.length>0 && !saving ? false : true
     }
     return (
         <div className="action-bar">
@@ -25,7 +25,7 @@ const ActionBar = (props) => {
 ActionBar.propTypes = {
     save: PropTypes.func.isRequired,
     validate: PropTypes.func.isRequired,
-    selectedMap: PropTypes.object,
+    selectedMaps: PropTypes.array.isRequired,
     instanceId: PropTypes.number,
     saving: PropTypes.bool.isRequired,
     urls: PropTypes.object.isRequired
@@ -98,8 +98,7 @@ export default class EditPageComponent extends React.Component {
         showModal: false
     }
     checkIfDisabled = (index) => {
-        const { childrenProps } = this.props
-        return (!childrenProps.selectedMap) ? index === 0 ? false : true : false
+        return false
     }
     getTabClassName = (index) => {
         return classNames({
@@ -125,7 +124,7 @@ export default class EditPageComponent extends React.Component {
             <div>
                 <AppBar handleHideModal={this.handleHideModal} />
                 <hr />
-                <ActionBar validate={childrenProps.validate} saving={childrenProps.saving} urls={childrenProps.urls} save={childrenProps.save} selectedMap={childrenProps.selectedMap} instanceId={childrenProps.instanceId} />
+                <ActionBar validate={childrenProps.validate} saving={childrenProps.saving} urls={childrenProps.urls} save={childrenProps.save} selectedMaps={childrenProps.selectedMaps} instanceId={childrenProps.instanceId} />
                 <hr />
                 <div className="row content">
                     <Tabs childrenProps={childrenProps} checkIfDisabled={this.checkIfDisabled} getContentClassName={this.getContentClassName} getTabClassName={this.getTabClassName} />

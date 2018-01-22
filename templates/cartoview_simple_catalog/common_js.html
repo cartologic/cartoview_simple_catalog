@@ -6,28 +6,26 @@
           const PROXY_URL=null
       {% endif %}
       const urls={
-        MapsAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='maps' %}",
+        MapsAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='all_resouces' %}",
         newMap:"{% url "new_map" %}",
         keywordsAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='keywords' %}",
         profilesAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='profiles' %}",
         {% if instance %}
-        viewURL: "{% url "cartoview_simple_catalog.view" instance_id=instance.id %}",
-        editURL: "{% url "cartoview_simple_catalog.edit" instance_id=instance.id %}",
-        detailsURL: "{% url "appinstance_detail" appinstanceid=instance.id %}",
         appInstance: "{% url 'api_dispatch_detail' api_name='api' resource_name='appinstances' pk=instance.id %}",
         appInstancesPage:"{% url 'appinstance_browse' %}?app__name={{instance.app.name}}&app__title={{instance.app.title}}",
         {% else %}
+       
+        mapDetails:function(id){
+          return "/maps/"+id
+        },
+        appInstance: null,
+        {% endif %}
         viewURL:function(id){
           return "/apps/cartoview_simple_catalog/"+id+"/view/"
         },
         editURL:function(id){
           return "/apps/cartoview_simple_catalog/"+id+"/edit/"
         },
-        detailsURL:function(id){
-          return "/apps/appinstance/"+id+"/"
-        },
-        appInstance: null,
-        {% endif %}
         proxy: PROXY_URL,
         geoserverUrl : "{{ GEOSERVER_BASE_URL }}",
         static: "{{ STATIC_URL }}",
@@ -37,6 +35,7 @@
         apps: "{% url 'app_manager_base_url' %}",
         rest: "{% url 'app_manager_base_url' %}rest/app_manager/",
         geonodeRest: "{% url 'api_api_top_level' 'api' %}",
+        noImage:"{% static 'app_manager/img/no-image.jpg' %}",
         appLogo:'{% static 'cartoview_simple_catalog/logo.png' %}',
         layerAttributes:"{% url 'app_manager_base_url' %}rest/app_manager/geonodelayerattribute/",
         mapLayers:"{% url "cartoview_map_layers" %}",

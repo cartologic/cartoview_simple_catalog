@@ -21,7 +21,7 @@ const plugins = [
 const config = {
     entry: {
         config: path.join(APP_DIR, 'EditPageEntry.jsx'),
-        // SimpleCatalog: path.join(APP_DIR, 'containers', 'SimpleCatalog.jsx'),
+        SimpleCatalog: path.join(APP_DIR, 'containers', 'SimpleCatalog.jsx'),
     },
     output: {
         path: BUILD_DIR,

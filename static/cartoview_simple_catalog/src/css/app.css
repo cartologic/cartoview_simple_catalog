@@ -9,7 +9,11 @@
     margin-left: 10px !important;
     margin-right: 10px !important;
 }
-
+.title-wrap {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
 .map-details-button {
     margin: 5px;
     float: right

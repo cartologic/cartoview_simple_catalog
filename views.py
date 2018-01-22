@@ -2,10 +2,18 @@ import json
 
 from cartoview.app_manager.models import App, AppInstance
 from cartoview.app_manager.views import StandardAppViews
+from geonode.maps.models import Map
 from django.shortcuts import HttpResponse
-
+from sys import stdout
+import logging
 from . import APP_NAME
-
+formatter = logging.Formatter(
+    '[%(asctime)s] p%(process)s  { %(name)s %(pathname)s:%(lineno)d} \
+                            %(levelname)s - %(message)s', '%m-%d %H:%M:%S')
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(stdout)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 _js_permissions_mapping = {
     'whoCanView': 'view_resourcebase',
     'whoCanChangeMetadata': 'change_resourcebase_metadata',
@@ -46,7 +54,8 @@ class Catalog(StandardAppViews):
         res_json = dict(success=False)
         data = json.loads(request.body)
         config = data.get('config', None)
-        map_id = data.get('map', None)
+        logger.error(config)
+        resources = config['resources']
         title = data.get('title', "")
         access = data.get('access', None)
         keywords = data.get('keywords', [])
@@ -64,7 +73,12 @@ class Catalog(StandardAppViews):
         instance_obj.title = title
         instance_obj.config = config
         instance_obj.abstract = abstract
-        instance_obj.map_id = map_id
+        if config:
+            maps = Map.objects.filter(id__in=[int(id) for id in resources])
+            if maps.count() > 0:
+                instance_obj.map = maps[0]
+            else:
+                instance_obj.map = None
         instance_obj.save()
         owner_permissions = [
             'view_resourcebase',

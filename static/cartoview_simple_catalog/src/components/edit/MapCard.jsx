@@ -4,36 +4,35 @@ import React from 'react'
 import Spinner from 'react-spinkit'
 
 export const MapCard = (props) => {
-    const { selectMap, map, selectedMap } = props
+    const { selectMap, map, selectedMaps,urls } = props
     return (
         <div
             onClick={() => selectMap(map)}
             key={map.id}
-            className={(selectedMap ? selectedMap.id == map.id : false)
+            className={selectedMaps.includes(map.id)
                 ? "row row-fix resource-box bg-success"
                 : "row row-fix resource-box"}>
 
             <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4 resource-box-img-container">
                 <Img
                     className="resource-box-img"
-                    src={[map.thumbnail_url, "/static/app_manager/img/no-image.jpg"]}
+                    src={[map.thumbnail_url, urls.noImage]}
                     loader={< Spinner name="line-scale-pulse-out" color="steelblue" />} />
             </div>
 
-            <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8 resource-box-text">
-                <h4>{map.title}</h4>
+            <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8 resource-box-text title-wrap">
+                <h4 className="title-wrap">{map.title}</h4>
                 <hr></hr>
-                <p>
-                    {map.abstract.length > 30
-                        ? map.abstract.substr(0, 30) + '...'
-                        : map.abstract}
+                <p className="title-wrap">
+                    {map.abstract}
                 </p>
-                <p>owner: {map.owner__username}</p>
+                <small>owner: {map.owner}</small><br/>
+                <small>type: <span className='badge'>{map.type}</span> </small>
                 <a type="button"
-                    href={`/maps/${map.id}`}
+                    href={map.urls.details}
                     target="_blank"
                     className="btn btn-primary map-details-button">
-                    {'Map Details'}
+                    {'Details'}
                 </a>
             </div>
         </div>
@@ -42,5 +41,6 @@ export const MapCard = (props) => {
 MapCard.propTypes = {
     selectMap: PropTypes.func.isRequired,
     map: PropTypes.object.isRequired,
-    selectedMap: PropTypes.object
+    selectedMaps: PropTypes.array.isRequired,
+    urls:PropTypes.object.isRequired
 }

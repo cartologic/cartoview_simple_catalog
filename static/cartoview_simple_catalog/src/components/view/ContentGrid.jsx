@@ -18,16 +18,6 @@ const styles = theme => ({
     }
 })
 class ContentGrid extends Component {
-    componentDidMount() {
-        const { childrenProps } = this.props
-        childrenProps.map.setTarget(this.mapDiv)
-    }
-    componentDidUpdate(prevProps, prevState) {
-        const { width } = this.props
-        if (prevProps.width !== width) {
-            prevProps.childrenProps.map.updateSize()
-        }
-    }
     render() {
         const { classes, childrenProps } = this.props
         return (
