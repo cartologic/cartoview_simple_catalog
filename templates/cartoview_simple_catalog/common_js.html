@@ -1,9 +1,9 @@
 {% load static %}
 <script>
       {% if PROXY_URL %}
-              const PROXY_URL='{{PROXY_URL}}'
+      const PROXY_URL='{{PROXY_URL}}'
       {% else %}
-          const PROXY_URL=null
+      const PROXY_URL=null
       {% endif %}
       const urls={
         MapsAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='all_resouces' %}",
@@ -44,7 +44,7 @@
         {% endblock %}
     }
     {% if instance %}
-        const instanceId= {{ instance.id }}
+    const instanceId= {{ instance.id }}
     {% endif %}
     const username="{{request.user.username}}"
 </script>
