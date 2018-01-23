@@ -5,6 +5,7 @@ import { doGet, doPost } from 'Source/utils/utils'
 
 import AppAccess from 'Source/components/edit/Access'
 import AppConfiguration from 'Source/components/edit/AppConfiguration'
+import CatalogForm from 'Source/components/edit/CatalogForm'
 import EditPageComponent from 'Source/components/edit/EditPage'
 import MapSelector from 'Source/components/edit/MapSelector'
 import PropTypes from 'prop-types'
@@ -159,6 +160,15 @@ class EditPage extends React.Component {
                 }
             },
             {
+                title: "Catalog Options",
+                component: CatalogForm,
+                ref: 'catalogOptionsStep',
+                hasErrors: false,
+                props: {
+                    config,
+                }
+            },
+            {
                 title: "General",
                 component: AppConfiguration,
                 ref: 'generalStep',
@@ -202,7 +212,8 @@ class EditPage extends React.Component {
         const { selectedMaps } = this.state
         let finalConfiguration = { ...this.generalStep.getComponentValue(),
             config: {
-                resources: selectedMaps
+                resources: selectedMaps,
+                ...this.catalogOptionsStep.getComponentValue()
             },
             access: this.accessConfigurationStep.getComponentValue(),
             keywords: this.toArray( keywords )

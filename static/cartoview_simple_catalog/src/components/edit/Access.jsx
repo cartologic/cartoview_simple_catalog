@@ -44,7 +44,6 @@ export default class AppAccess extends React.Component {
     onChange = (newValue) => {
         this.setState({ value: newValue })
     }
-    getAccess
     getFormValue = (props) => {
         const { config } = props
         const viewAccess = getPropertyFromConfig(config ? config.access :

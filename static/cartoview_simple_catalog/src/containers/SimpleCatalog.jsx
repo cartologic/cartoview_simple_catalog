@@ -15,6 +15,7 @@ class SimpleCatalogContainer extends Component {
         this.state = {
             resources: [],
             resourcesLoading: true,
+            searchText: '',
         }
         this.urls = this.props.urls
         this.URLS = new URLS( this.urls.proxy, this.resourcesAPI )
@@ -22,19 +23,36 @@ class SimpleCatalogContainer extends Component {
     componentWillMount = () => {
         this.getResources()
     }
+    applySearch = () => {
+        let { searchText, resources } = this.state
+        if ( searchText != '' ) {
+            return resources.filter( resource => resource.title.includes(
+                searchText ) || resource.abstract.includes(
+                searchText ) )
+        }
+        return resources
+    }
+    searchChanged=(event)=>{
+        this.setState({searchText:event.target.value})
+    }
     getResources = () => {
         const { config } = this.props
         const url =
             `${this.urls.resourcesAPI}?id__in=${config.resources.join(',')}`
-        doGet( url ).then(result=>{
-            this.setState({resources:result.objects,resourcesLoading:false})
-        })
+        doGet( url ).then( result => {
+            this.setState( {
+                resources: result.objects,
+                resourcesLoading: false
+            } )
+        } )
     }
     render() {
         const { config } = this.props
         let childrenProps = {
             config,
             ...this.state,
+            applySearch:this.applySearch,
+            searchChanged:this.searchChanged
         }
         return <SimpleCatalog childrenProps={childrenProps} />
     }

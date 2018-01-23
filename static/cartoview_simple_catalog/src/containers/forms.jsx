@@ -7,7 +7,15 @@ export const generalFormSchema = () => {
     const formSchema = t.struct({
         title: t.String,
         abstract: t.maybe(t.String),
-        keywords: t.list(selectKeywordItem)
+        keywords: t.list(selectKeywordItem),
+    })
+    return formSchema
+}
+export const catalogFormSchema = () => {
+    const formSchema = t.struct({
+        pagination: t.Boolean,
+        grouping: t.Boolean,
+        search: t.Boolean
     })
     return formSchema
 }
