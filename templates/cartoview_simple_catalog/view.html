@@ -22,8 +22,8 @@
 <script src="{% static 'cartoview_simple_catalog/dist/SimpleCatalog.bundle.js?version=1' %}"></script>
 <script type="text/javascript">
     const props = {{ instance.config | safe }}
-    props.formTitle={{instance.title|dump_json}}
-    props.formAbstract={{instance.abstract|dump_json}}
+    props.title={{instance.title|dump_json}}
+    props.abstract={{instance.abstract|dump_json}}
     props.username=username
     SimpleCatalogContainer.show('root', props,urls);
   </script>

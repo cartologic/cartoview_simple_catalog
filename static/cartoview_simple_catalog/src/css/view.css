@@ -209,7 +209,10 @@
     top: auto !important;
     bottom: 8em;
 }
-
+body{
+    background-image: url(/static/cartoview_simple_catalog/img/square.png);
+    background-repeat: repeat;
+}
 @media screen and (max-width: 1024px) {
     .big-avatar {
         width: 85px

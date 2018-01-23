@@ -6,7 +6,7 @@
       const PROXY_URL=null
       {% endif %}
       const urls={
-        MapsAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='all_resouces' %}",
+        resourcesAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='all_resouces' %}",
         newMap:"{% url "new_map" %}",
         keywordsAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='keywords' %}",
         profilesAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='profiles' %}",
@@ -27,18 +27,13 @@
           return "/apps/cartoview_simple_catalog/"+id+"/edit/"
         },
         proxy: PROXY_URL,
-        geoserverUrl : "{{ GEOSERVER_BASE_URL }}",
         static: "{{ STATIC_URL }}",
         media: "{{ MEDIA_URL }}",
-        layers: "{% url 'layer_browse' %}",
-        maps: "{% url 'maps_browse' %}",
         apps: "{% url 'app_manager_base_url' %}",
         rest: "{% url 'app_manager_base_url' %}rest/app_manager/",
         geonodeRest: "{% url 'api_api_top_level' 'api' %}",
-        noImage:"{% static 'app_manager/img/no-image.jpg' %}",
+        noImage:"{% static 'cartoview_simple_catalog/img/noImage.jpg' %}",
         appLogo:'{% static 'cartoview_simple_catalog/logo.png' %}',
-        layerAttributes:"{% url 'app_manager_base_url' %}rest/app_manager/geonodelayerattribute/",
-        mapLayers:"{% url "cartoview_map_layers" %}",
         newURL:"{% url "cartoview_simple_catalog.new" %}",
         {% block extra_urls %}
         {% endblock %}

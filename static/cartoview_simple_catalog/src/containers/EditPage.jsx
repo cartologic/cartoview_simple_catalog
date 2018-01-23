@@ -15,7 +15,7 @@ const LIMIT = 9
 class EditPage extends React.Component {
     constructor( props ) {
         super( props )
-        this.urls = new URL( this.props.urls.proxy, this.props.urls.MapsAPI )
+        this.urls = new URL( this.props.urls.proxy, this.props.urls.resourcesAPI )
         const { config } = this.props
         this.state = {
             maps: [],
