@@ -54,7 +54,8 @@ class ResourceCard extends React.Component {
                         {resource.title}
                     </Typography>
                     <Typography noWrap={true} component="p">
-                        {resource.abstract}
+                        {resource.abstract ==="" && "No abstract provided"}
+                        {resource.abstract !=="" && resource.abstract}
                     </Typography>
                 </CardContent>
                 <CardActions>

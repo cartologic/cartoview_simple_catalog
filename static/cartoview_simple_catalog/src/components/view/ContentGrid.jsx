@@ -12,21 +12,21 @@ import compose from 'recompose/compose'
 import { withStyles } from 'material-ui/styles'
 import withWidth from 'material-ui/utils/withWidth'
 
-const styles = theme => ({
+const styles = theme => ( {
     root: {
         height: "100%",
         padding: theme.spacing.unit * 2,
     }
-})
+} )
 class ContentGrid extends Component {
     state = {
         current: 1,
         perPage: 8
     }
-    onChange = (page) => {
-        this.setState({
+    onChange = ( page ) => {
+        this.setState( {
             current: page,
-        })
+        } )
     }
     render() {
         const { classes, childrenProps } = this.props
@@ -35,14 +35,14 @@ class ContentGrid extends Component {
         const indexOfFirst = indexOfLast - perPage
         let resources = childrenProps.applySearch()
         const total = resources.length
-        if (childrenProps.config.pagination) {
-            resources = resources.slice(indexOfFirst, indexOfLast)
+        if ( childrenProps.config.pagination ) {
+            resources = resources.slice( indexOfFirst, indexOfLast )
         }
         return (
             <div className={classes.root}>
                 {childrenProps.config.search && <SearchBar searchValue={childrenProps.searchText} searchChanged={childrenProps.searchChanged} />}
                 <Grid container alignItems={"center"}
-                            justify={'center'} className={classes.root}>
+                    justify={'center'} className={classes.root}>
                     <Grid item xs={12}>
                         <Grid
                             container
@@ -59,11 +59,11 @@ class ContentGrid extends Component {
                         </Grid>
                     </Grid>
                     {childrenProps.config.pagination && (total > perPage) && <Pagination
-                            onChange={this.onChange}
-                            current={this.state.current}
-                            total={total}
-                            showLessItems
-                        />}
+                        defaultPageSize={perPage}
+                        onChange={this.onChange}
+                        current={this.state.current}
+                        total={total}
+                    />}
                 </Grid>
             </div>
         )
@@ -74,4 +74,4 @@ ContentGrid.propTypes = {
     classes: PropTypes.object.isRequired,
     width: PropTypes.string,
 }
-export default compose(withStyles(styles), withWidth())(ContentGrid)
+export default compose( withStyles( styles ), withWidth() )( ContentGrid )
