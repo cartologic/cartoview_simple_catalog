@@ -2,6 +2,7 @@ import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card'
 
 import Badge from 'material-ui/Badge';
 import Button from 'material-ui/Button'
+import Chip from 'material-ui/Chip';
 import PropTypes from 'prop-types'
 import React from 'react'
 import Typography from 'material-ui/Typography'
@@ -17,16 +18,16 @@ const styles = theme => ( {
     },
     badge: {
         margin: `0 ${theme.spacing.unit * 2}px`,
-        display:'block'
+        display: 'block'
     },
-    badgeSpan:{
-        height:34,
-        width:34
+    badgeSpan: {
+        height: 34,
+        width: 34
     }
 } )
 class ResourceCard extends React.Component {
-    constructor(props){
-        super(props)
+    constructor( props ) {
+        super( props )
         this.state = {
             thumbnail: this.props.resource.thumbnail_url
         }
@@ -34,8 +35,9 @@ class ResourceCard extends React.Component {
     componentWillMount() {
         let thumbnail = this.props.resource.thumbnail_url
         let that = this
-        checkImageSrc( thumbnail, () => {}, () => that.setState( { thumbnail: urls
-                .noImage } ) )
+        checkImageSrc( thumbnail, () => {}, () => that.setState( {
+            thumbnail: urls.noImage
+        } ) )
     }
     render() {
         const { classes, resource } = this.props
@@ -57,6 +59,10 @@ class ResourceCard extends React.Component {
                         {resource.abstract ==="" && "No abstract provided"}
                         {resource.abstract !=="" && resource.abstract}
                     </Typography>
+                    <Typography color={'secondary'} noWrap={true} type="caption" component="h2">
+                        {"Category: "}{resource.app ? resource.app.title: resource.type } 
+                    </Typography>
+                    {/* <Chip label={resource.app ? resource.app.title: resource.type } /> */}
                 </CardContent>
                 <CardActions>
                     <Button component='a' href={resource.urls.details} dense color="primary">

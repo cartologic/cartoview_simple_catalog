@@ -13,8 +13,8 @@ export const generalFormSchema = () => {
 }
 export const catalogFormSchema = () => {
     const formSchema = t.struct({
-        pagination: t.Boolean,
-        grouping: t.Boolean,
+        pagination: t.Number,
+        sortBy: t.String,
         search: t.Boolean
     })
     return formSchema

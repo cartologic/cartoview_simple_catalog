@@ -19,25 +19,8 @@ const styles = theme => ( {
     }
 } )
 class ContentGrid extends Component {
-    state = {
-        current: 1,
-        perPage: 8
-    }
-    onChange = ( page ) => {
-        this.setState( {
-            current: page,
-        } )
-    }
     render() {
         const { classes, childrenProps } = this.props
-        const { current, perPage } = this.state
-        const indexOfLast = current * perPage
-        const indexOfFirst = indexOfLast - perPage
-        let resources = childrenProps.applySearch()
-        const total = resources.length
-        if ( childrenProps.config.pagination ) {
-            resources = resources.slice( indexOfFirst, indexOfLast )
-        }
         return (
             <div className={classes.root}>
                 {childrenProps.config.search && <SearchBar searchValue={childrenProps.searchText} searchChanged={childrenProps.searchChanged} />}
@@ -52,17 +35,17 @@ class ContentGrid extends Component {
                             justify={'center'}
                         >
 
-                            {!childrenProps.resourcesLoading && resources.map(resource => {
+                            {!childrenProps.resourcesLoading && childrenProps.catalogResources.map(resource => {
                                 return <Grid key={resource.id} item xs={12} sm={6} md={3} lg={3} xl={3} ><ResourceCard resource={resource} /></Grid>
                             })}
-                            {!childrenProps.resourcesLoading && resources.length == 0 && <Message message="No Resources" type="title" />}
+                            {!childrenProps.resourcesLoading && childrenProps.catalogResources.length == 0 && <Message message="No Resources" type="title" />}
                         </Grid>
                     </Grid>
-                    {childrenProps.config.pagination && (total > perPage) && <Pagination
-                        defaultPageSize={perPage}
-                        onChange={this.onChange}
-                        current={this.state.current}
-                        total={total}
+                    {childrenProps.config.pagination && (childrenProps.totalResources > childrenProps.perPage) && <Pagination
+                        defaultPageSize={childrenProps.perPage}
+                        onChange={childrenProps.onPageChange}
+                        current={childrenProps.currentPage}
+                        total={childrenProps.totalResources}
                     />}
                 </Grid>
             </div>

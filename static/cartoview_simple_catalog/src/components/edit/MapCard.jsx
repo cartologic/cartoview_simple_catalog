@@ -27,7 +27,7 @@ export const MapCard = (props) => {
                     {map.abstract}
                 </p>
                 <small>owner: {map.owner}</small><br/>
-                <small>type: <span className='badge'>{map.type}</span> </small>
+                <small>type: <span className='badge'>{map.type}{map.app?` (${map.app.title})`:'' }</span> </small>
                 <a type="button"
                     href={map.urls.details}
                     target="_blank"
