@@ -7,14 +7,9 @@ const styles = theme => ( {
     root:{
         marginTop: theme.spacing.unit * 2,
         display:'flex',
-        width:'25%',
-        [theme.breakpoints.down('sm')]: {
-            width:'100%',
-        },
+        width:'100%',
         marginLeft:'auto',
         marginRight:'auto',
-        paddingLeft: 'auto',
-        paddingRight: 'auto'
     } ,
     textField: {
         marginLeft: theme.spacing.unit,

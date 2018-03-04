@@ -6,7 +6,7 @@
       const PROXY_URL=null
       {% endif %}
       const urls={
-        resourcesAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='all_resouces' %}",
+        resourcesAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='all_resources' %}",
         newMap:"{% url "new_map" %}",
         keywordsAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='keywords' %}",
         profilesAPI: "{% url 'api_dispatch_list' api_name='api' resource_name='profiles' %}",
@@ -32,7 +32,7 @@
         apps: "{% url 'app_manager_base_url' %}",
         rest: "{% url 'app_manager_base_url' %}rest/app_manager/",
         geonodeRest: "{% url 'api_api_top_level' 'api' %}",
-        noImage:"{% static 'cartoview_simple_catalog/img/noImage.jpg' %}",
+        noImage:"{% static 'geonode/img/missing_thumb.png' %}",
         appLogo:'{% static 'cartoview_simple_catalog/logo.png' %}',
         newURL:"{% url "cartoview_simple_catalog.new" %}",
         {% block extra_urls %}
