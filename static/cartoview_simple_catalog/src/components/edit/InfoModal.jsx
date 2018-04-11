@@ -23,7 +23,7 @@ export default class InfoModal extends Component {
                         </div>
                         <div className="modal-body">
                             <p>
-                            {`Display a defined set of CartoView and GeoNode content items in a single, responsice and searchable web page`}
+                            {`Display a defined set of CartoView and GeoNode content items in a single, responsive and searchable web page`}
                             </p>
                         </div>
                         <div className="modal-footer">
