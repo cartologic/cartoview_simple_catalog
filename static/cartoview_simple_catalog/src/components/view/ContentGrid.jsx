@@ -34,7 +34,9 @@ class ContentGrid extends Component {
         const { childrenProps } = this.props
         const { value } = this.state
         const keys = Object.keys(childrenProps.catalogResources)
-        return keys[value]
+        if( value in keys)
+            return keys[value]
+        return keys['0']
     }
     render() {
         const { classes, childrenProps } = this.props
