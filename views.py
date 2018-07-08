@@ -53,10 +53,14 @@ class Catalog(StandardAppViews):
         user = request.user
         res_json = dict(success=False)
         data = json.loads(request.body)
+        print(data.thumbnail, "&&^^^^^^^^^")
         config = data.get('config', None)
         logger.error(config)
         resources = config['resources']
         title = data.get('title', "")
+        thumbnail = data.get('thumbnail', "") 
+        if thumbnail is not None:
+            thumbnail_parts = thumbnail.split()
         access = data.get('access', None)
         keywords = data.get('keywords', [])
         config.update(access=access, keywords=keywords)
@@ -73,6 +77,7 @@ class Catalog(StandardAppViews):
         instance_obj.title = title
         instance_obj.config = config
         instance_obj.abstract = abstract
+        instance_obj.thumbnail_url = thumbnail
         if config:
             maps = Map.objects.filter(id__in=[int(id) for id in resources])
             if maps.count() > 0:

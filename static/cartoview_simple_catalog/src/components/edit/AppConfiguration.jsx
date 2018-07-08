@@ -40,29 +40,31 @@ export default class AppConfiguration extends React.Component {
         return value
     }
     componentWillReceiveProps(nextProps) {
-        const { selectedMap, config,instanceId } = this.props
-        if (((selectedMap !== nextProps.selectedMap) || config)&& !instanceId) {
+        const { selectedMap, config, instanceId } = this.props
+        if (((selectedMap !== nextProps.selectedMap) || config) && !instanceId) {
             this.setState({ value: this.getFormValue(nextProps) })
         }
     }
     onChange = (newValue) => {
         this.setState({ value: newValue })
     }
-    keywordsToOptions=(keywords)=>{
-        let options=[]
-        keywords.map(keyword=>{
-            options.push({value:keyword,label:keyword})
+    keywordsToOptions = (keywords) => {
+        let options = []
+        keywords.map(keyword => {
+            options.push({ value: keyword, label: keyword })
         })
         return options
     }
     getFormValue = (props) => {
-        const { title, selectedMap, abstract, config } =
+        const { title, selectedMap, thumbnail, abstract, config} =
             props
         const value = {
             title: title ? title : selectedMap ? selectedMap.title : null,
             abstract: abstract ? abstract : selectedMap ?
                 selectedMap.abstract : null,
-            keywords: this.keywordsToOptions(getPropertyFromConfig(config, 'keywords',[]))
+            thumbnail: thumbnail ? thumbnail : selectedMap ?
+                selectedMap.thumbnail : null,
+            keywords: this.keywordsToOptions(getPropertyFromConfig(config, 'keywords', []))
         }
         return value
     }
@@ -71,6 +73,9 @@ export default class AppConfiguration extends React.Component {
             fields: {
                 title: {
                     label: "App Title"
+                },
+                thumbnail: {
+                    type: 'file'
                 },
                 keywords: {
                     factory: t.form.Textbox,
@@ -102,7 +107,8 @@ AppConfiguration.propTypes = {
     selectedMap: PropTypes.object,
     config: PropTypes.object,
     title: PropTypes.string,
+    // thumbnail: PropTypes.string,
     abstract: PropTypes.string,
     errors: PropTypes.array.isRequired,
-    instanceId:PropTypes.number
+    instanceId: PropTypes.number
 }

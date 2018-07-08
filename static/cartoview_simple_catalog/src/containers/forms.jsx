@@ -1,4 +1,5 @@
 import t from 'tcomb-form'
+
 export const generalFormSchema = () => {
     const selectKeywordItem = t.struct({
         value: t.String,
@@ -7,10 +8,12 @@ export const generalFormSchema = () => {
     const formSchema = t.struct({
         title: t.String,
         abstract: t.maybe(t.String),
-        keywords: t.list(selectKeywordItem),
+        thumbnail: t.maybe(t.form.File),
+        keywords:  t.list(selectKeywordItem),
     })
     return formSchema
 }
+
 export const catalogFormSchema = () => {
     const formSchema = t.struct({
         sortBy: t.String,
