@@ -99,7 +99,7 @@ export default class AppConfiguration extends React.Component {
                     type={generalFormSchema()}
                     onChange={this.onChange}
                     options={this.getFormOptions()} />
-                    {thumbnail ? <div><h5>Attached Thumbnail</h5> <img src={thumbnail}/></div> : null}
+                    {thumbnail ? <div><h5>Attached Thumbnail</h5> <img id="thumbnail"src={thumbnail}/></div> : null}
             </div>
         )
     }

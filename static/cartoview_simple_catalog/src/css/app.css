@@ -93,6 +93,12 @@
 .grow{
     flex-grow: 1
 }
+
+#thumbnail{
+    height: 250px;
+    width: 250px;
+}
+
 @media screen and (max-width: 480px) {
     .resource-box-img {
         border-right: white;
