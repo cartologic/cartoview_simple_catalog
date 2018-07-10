@@ -229,29 +229,24 @@ class EditPage extends React.Component {
         const { instanceId, errors } = this.state
         if (errors.length == 0) {
             this.setState({ saving: true })
-            //var formData = new FormData();
-            // formData.append(data.thumbnail)
-            let data = this.prepareServerData()
+            var formData = new FormData();
             
-            var reader = new FileReader();
-            reader.readAsDataURL(data.thumbnail)
-            reader.onload = ()=> {
-                data.thumbnail_name = data.thumbnail.name;
-                data.thumbnail_type = data.thumbnail.type;
-                console.log(data.thumbnail);
-            data.thumbnail = reader.result  
+            let data = this.prepareServerData()
+            if (data.thumbnail.type.includes("image"))
+            formData.append('thumbnail', data.thumbnail);
+
             const url = instanceId ? urls.editURL(instanceId) : urls.newURL
-            // console.log(data.thumbnail);
             const data_ = JSON.stringify(data)
+            formData.append('data', data_);
             console.log(data);
-            doPost(url, data_, { "Content-Type": "application/json; charset=UTF-8" })
+            doPost(url, formData)
                 .then(result => {
                     this.setState({
                         instanceId: result.id,
                         saving: false
                     })
                 })
-        }}
+        }
     }
     showComponentsErrors = (callBack) => {
         let errors = []

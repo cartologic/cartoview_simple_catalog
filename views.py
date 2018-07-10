@@ -57,26 +57,22 @@ class Catalog(StandardAppViews):
         user = request.user
         res_json = dict(success=False)
         
-        data = json.loads(request.body)
+        data = json.loads(request.POST.get('data'))
+        files = request.FILES
 
         config = data.get('config', None)
         logger.error(config)
         resources = config['resources']
         title = data.get('title', "")
-        thumbnail_name = data.get('thumbnail_name', "")
-        thumbnail_type = data.get('thumbnail_type', "")
-
-        thumbnail = data.get('thumbnail', "") 
-        format, imgstr = thumbnail.split(';base64,') 
-        ext = format.split('/')[-1] 
-
-        thumbnail_fileData = ContentFile(base64.b64decode(imgstr), name=thumbnail_name) 
-        # print('thumbnail: ', request.FILES)
-        fs = FileSystemStorage()
-        thumbnail_file = fs.save(thumbnail_fileData.name, thumbnail_fileData)
-        uploaded_thumbnail_url = fs.url(thumbnail_file)
-
-        print('yallab2a: ', uploaded_thumbnail_url)
+      
+        thumbnail_img = files.get('thumbnail', None)
+        
+        print('thumbnail_img: ', thumbnail_img)
+        uploaded_thumbnail_url=None
+        if thumbnail_img is not None:
+            fs = FileSystemStorage()
+            thumbnail_file = fs.save(thumbnail_img.name, thumbnail_img)
+            uploaded_thumbnail_url = fs.url(thumbnail_file)
 
         access = data.get('access', None)
         keywords = data.get('keywords', [])
@@ -94,11 +90,9 @@ class Catalog(StandardAppViews):
         instance_obj.title = title
         instance_obj.config = config
         instance_obj.abstract = abstract
-        # instance_obj.thumbnail_url = "http://localhost:8000/"+uploaded_thumbnail_url
-        instance_obj.thumbnail_url = uploaded_thumbnail_url
+        if uploaded_thumbnail_url is not None:
+            instance_obj.thumbnail_url = uploaded_thumbnail_url
     
-        print('yallab2a:: ', instance_obj.thumbnail_url)
-
         if config:
             maps = Map.objects.filter(id__in=[int(id) for id in resources])
             if maps.count() > 0:
@@ -106,8 +100,6 @@ class Catalog(StandardAppViews):
             else:
                 instance_obj.map = None
         instance_obj.save()
-        print('yallab2a:3: ', instance_obj.thumbnail_url)
-
         owner_permissions = [
             'view_resourcebase',
             'download_resourcebase',

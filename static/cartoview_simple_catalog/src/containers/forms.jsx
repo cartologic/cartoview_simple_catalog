@@ -8,8 +8,8 @@ export const generalFormSchema = () => {
     const formSchema = t.struct({
         title: t.String,
         abstract: t.maybe(t.String),
-        thumbnail: t.maybe(t.form.File),
         keywords:  t.list(selectKeywordItem),
+        thumbnail: t.maybe(t.form.File),
     })
     return formSchema
 }

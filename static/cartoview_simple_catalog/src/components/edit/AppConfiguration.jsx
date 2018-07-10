@@ -89,6 +89,7 @@ export default class AppConfiguration extends React.Component {
         return options
     }
     render() {
+        const {thumbnail}=this.props
         return (
             <div>
                 <h3>{"General Configuration"}</h3>
@@ -98,7 +99,7 @@ export default class AppConfiguration extends React.Component {
                     type={generalFormSchema()}
                     onChange={this.onChange}
                     options={this.getFormOptions()} />
-                    {/* <img src={}/> */}
+                    {thumbnail ? <div><h5>Attached Thumbnail</h5> <img src={thumbnail}/></div> : null}
             </div>
         )
     }
