@@ -230,29 +230,28 @@ class EditPage extends React.Component {
         if (errors.length == 0) {
             this.setState({ saving: true })
             //var formData = new FormData();
-            
+            // formData.append(data.thumbnail)
             let data = this.prepareServerData()
-            console.log(data.thumbnail)
+            
             var reader = new FileReader();
             reader.readAsDataURL(data.thumbnail)
             reader.onload = ()=> {
-                data.thumbnail = reader.result
-
-                const url = instanceId ? urls.editURL(instanceId) : urls
-                    .newURL
-                // console.log(data.thumbnail);    
-                const data_ = JSON.stringify(data)
-                // formData.append(data);
-                console.log(data);
-                doPost(url, data_, { "Content-Type": "application/json; charset=UTF-8" })
-                    .then(result => {
-                        this.setState({
-                            instanceId: result.id,
-                            saving: false
-                        })
+                data.thumbnail_name = data.thumbnail.name;
+                data.thumbnail_type = data.thumbnail.type;
+                console.log(data.thumbnail);
+            data.thumbnail = reader.result  
+            const url = instanceId ? urls.editURL(instanceId) : urls.newURL
+            // console.log(data.thumbnail);
+            const data_ = JSON.stringify(data)
+            console.log(data);
+            doPost(url, data_, { "Content-Type": "application/json; charset=UTF-8" })
+                .then(result => {
+                    this.setState({
+                        instanceId: result.id,
+                        saving: false
                     })
-            }
-        }
+                })
+        }}
     }
     showComponentsErrors = (callBack) => {
         let errors = []

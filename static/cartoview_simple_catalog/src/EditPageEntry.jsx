@@ -26,6 +26,7 @@ class Viewer {
                     config: res.config,
                     title: res.title,
                     abstract: res.abstract,
+                    thumbnail: res.thumbnail_url,
                     keywords: res.keywords,
                     map: res.map,
                     id:res.id

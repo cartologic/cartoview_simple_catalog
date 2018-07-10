@@ -98,6 +98,7 @@ export default class AppConfiguration extends React.Component {
                     type={generalFormSchema()}
                     onChange={this.onChange}
                     options={this.getFormOptions()} />
+                    {/* <img src={}/> */}
             </div>
         )
     }

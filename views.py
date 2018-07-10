@@ -1,9 +1,13 @@
 import json
-
+import base64
+import os
 from cartoview.app_manager.models import App, AppInstance
 from cartoview.app_manager.views import StandardAppViews
 from geonode.maps.models import Map
 from django.shortcuts import HttpResponse
+from django.core.files.storage import FileSystemStorage
+from django.core.files.base import ContentFile
+
 from sys import stdout
 import logging
 from . import APP_NAME
@@ -52,15 +56,28 @@ class Catalog(StandardAppViews):
     def save(self, request, instance_id=None):
         user = request.user
         res_json = dict(success=False)
+        
         data = json.loads(request.body)
-        print(data.thumbnail, "&&^^^^^^^^^")
+
         config = data.get('config', None)
         logger.error(config)
         resources = config['resources']
         title = data.get('title', "")
+        thumbnail_name = data.get('thumbnail_name', "")
+        thumbnail_type = data.get('thumbnail_type', "")
+
         thumbnail = data.get('thumbnail', "") 
-        if thumbnail is not None:
-            thumbnail_parts = thumbnail.split()
+        format, imgstr = thumbnail.split(';base64,') 
+        ext = format.split('/')[-1] 
+
+        thumbnail_fileData = ContentFile(base64.b64decode(imgstr), name=thumbnail_name) 
+        # print('thumbnail: ', request.FILES)
+        fs = FileSystemStorage()
+        thumbnail_file = fs.save(thumbnail_fileData.name, thumbnail_fileData)
+        uploaded_thumbnail_url = fs.url(thumbnail_file)
+
+        print('yallab2a: ', uploaded_thumbnail_url)
+
         access = data.get('access', None)
         keywords = data.get('keywords', [])
         config.update(access=access, keywords=keywords)
@@ -77,7 +94,11 @@ class Catalog(StandardAppViews):
         instance_obj.title = title
         instance_obj.config = config
         instance_obj.abstract = abstract
-        instance_obj.thumbnail_url = thumbnail
+        # instance_obj.thumbnail_url = "http://localhost:8000/"+uploaded_thumbnail_url
+        instance_obj.thumbnail_url = uploaded_thumbnail_url
+    
+        print('yallab2a:: ', instance_obj.thumbnail_url)
+
         if config:
             maps = Map.objects.filter(id__in=[int(id) for id in resources])
             if maps.count() > 0:
@@ -85,6 +106,8 @@ class Catalog(StandardAppViews):
             else:
                 instance_obj.map = None
         instance_obj.save()
+        print('yallab2a:3: ', instance_obj.thumbnail_url)
+
         owner_permissions = [
             'view_resourcebase',
             'download_resourcebase',
@@ -109,6 +132,10 @@ class Catalog(StandardAppViews):
         res_json.update(dict(success=True, id=instance_obj.id))
         return HttpResponse(json.dumps(res_json),
                             content_type="application/json")
+    # override save_all function for (app_manager views)
+    def save_all(self, request, instance_id=None):
+        response = self.save(request, instance_id)
+        return response
 
 
 simple_catalog = Catalog(APP_NAME)
