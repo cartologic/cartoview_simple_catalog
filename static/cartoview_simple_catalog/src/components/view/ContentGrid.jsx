@@ -12,7 +12,7 @@ import SearchBar from 'Source/components/view/SearchBar'
 import compose from 'recompose/compose'
 import { withStyles } from 'material-ui/styles'
 import withWidth from 'material-ui/utils/withWidth'
-
+import ReactPaginate from 'react-paginate'
 const styles = theme => ({
     root: {
         height: "100%",
@@ -58,7 +58,6 @@ class ContentGrid extends Component {
                             </Grid>
 
                             <Grid item xs={12}>
-
                                 {keys.length > 0 && <Paper className={classes.tabPaper}>
                                     <Tabs
                                         value={this.state.value}
@@ -68,7 +67,14 @@ class ContentGrid extends Component {
                                         centered
                                     >
                                         {!childrenProps.resourcesLoading && keys.map((key, index) => {
-                                            return <Tab key={index} label={key} />
+                                            return (<Tab key={index} label={key}>
+                                            {console.log(key, index)}
+                                            </Tab>) 
+                                            {/* return (<div>
+                                            <Pagination> 
+                                            <Tab key={index} label={key}/> 
+                                            </Pagination>
+                                            </div>);  */}
                                         })}
                                     </Tabs>
                                 </Paper>}

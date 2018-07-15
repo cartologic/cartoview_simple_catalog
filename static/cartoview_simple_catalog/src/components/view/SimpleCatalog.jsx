@@ -17,10 +17,11 @@ injectTapEventPlugin()
 class SimpleCatalog extends Component {
     render() {
         let { classes, childrenProps } = this.props
+       {console.log(childrenProps)}
         return (
             <MuiThemeProvider theme={theme}>
                 <div>
-                    <NavBar title={childrenProps.config.title}/>
+                    <NavBar title={childrenProps.config.title} abstract={childrenProps.config.abstract}/>
                     <ContentGrid childrenProps={childrenProps} map={childrenProps.map} />
                 </div>
             </MuiThemeProvider>

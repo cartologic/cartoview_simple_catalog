@@ -98,6 +98,13 @@
     height: 250px;
     width: 250px;
 }
+#navBarTitle{
+    margin: 0px;
+}
+#navBarSubtitle{
+    margin-bottom: 5px;
+    margin-top: 0px;
+}
 
 @media screen and (max-width: 480px) {
     .resource-box-img {

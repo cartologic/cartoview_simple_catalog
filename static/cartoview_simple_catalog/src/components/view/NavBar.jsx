@@ -9,7 +9,7 @@ const styles = {
         width: '100%',
     },
     flex: {
-        flex: 1,
+        flex: 0.5,
     },
     menuButton: {
         marginLeft: -12,
@@ -17,15 +17,22 @@ const styles = {
     },
 }
 const NavBar = ( props ) => {
-    const { classes, title } = props
+    const { classes, title, abstract} = props
     return (
         <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography type="title" color="inherit" className={classes.flex}>
-            {title}
-          </Typography>
+          {/* <Typography type="title" color="inherit" className={classes.flex}>
+          <h3>{title}</h3>
+            {abstract !== "No abstract provided" 
+          ?  <p> {abstract} </p>  : null}
+          </Typography> */}
+        <div>
+        <h2 style={{margin: '0px'}}> {title} </h2>
+        {abstract !== "No abstract provided" ? <p style={{marginBottom: '5px', marginTop: '0px'}}> {abstract} </p> : null}
+        </div>
         </Toolbar>
+       
       </AppBar>
     </div>
     )

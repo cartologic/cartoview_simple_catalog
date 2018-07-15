@@ -4,7 +4,7 @@ import React from 'react'
 import Spinner from 'react-spinkit'
 
 export const MapCard = (props) => {
-    const { selectMap, map, selectedMaps,urls } = props
+    const { selectMap, map, selectedMaps, urls } = props
     return (
         <div
             onClick={() => selectMap(map)}

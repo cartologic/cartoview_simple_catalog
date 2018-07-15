@@ -127,7 +127,9 @@ class Catalog(StandardAppViews):
     # override save_all function for (app_manager views)
     def save_all(self, request, instance_id=None):
         response = self.save(request, instance_id)
-        return response
+        return 
+    # def save_all(self, request, instance_id=None):
+    #     return request
 
 
 simple_catalog = Catalog(APP_NAME)
