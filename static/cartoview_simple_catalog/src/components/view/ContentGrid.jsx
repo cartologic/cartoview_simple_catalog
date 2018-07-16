@@ -13,6 +13,7 @@ import compose from 'recompose/compose'
 import { withStyles } from 'material-ui/styles'
 import withWidth from 'material-ui/utils/withWidth'
 import ReactPaginate from 'react-paginate'
+
 const styles = theme => ({
     root: {
         height: "100%",
@@ -25,10 +26,27 @@ const styles = theme => ({
 })
 class ContentGrid extends Component {
     state = {
-        value: 0
+        value: 0,
+        pageCount: 10,
+        offset: 0,
     }
+
     handleChange = (event, value) => {
         this.setState({ value })
+    }
+    handlePageClick = (data) => {
+        console.log(this.props);
+        console.log(data)
+        let selected = data.selected;
+        const {childrenProps} = this.props;
+        const pageCount = childrenProps.catalogResources[this.getTabValue()].length;
+        if (childrenProps.config.perPgae === undefined)
+        childrenProps.config.perPgae = 1;
+        let offset = Math.ceil(selected * childrenProps.config.perPgae);
+        
+        this.setState({offset: offset, pageCount: pageCount}, () => {
+            childrenProps.catalogResources[this.getTabValue()];
+          });
     }
     getTabValue = () => {
         const { childrenProps } = this.props
@@ -66,17 +84,12 @@ class ContentGrid extends Component {
                                         textColor="primary"
                                         centered
                                     >
+                   
                                         {!childrenProps.resourcesLoading && keys.map((key, index) => {
-                                            return (<Tab key={index} label={key}>
-                                            {console.log(key, index)}
-                                            </Tab>) 
-                                            {/* return (<div>
-                                            <Pagination> 
-                                            <Tab key={index} label={key}/> 
-                                            </Pagination>
-                                            </div>);  */}
+                                            return <Tab key={index} label={key}/>
                                         })}
                                     </Tabs>
+                                    
                                 </Paper>}
                                 <Grid
                                     container
@@ -86,9 +99,26 @@ class ContentGrid extends Component {
                                     justify={'center'}
                                 >
                                     {!childrenProps.resourcesLoading && keys.length > 0 && childrenProps.catalogResources[this.getTabValue()].map(resource => {
+
                                         return <Grid key={resource.id} item xs={12} sm={6} md={3} lg={3} xl={3} ><ResourceCard resource={resource} /></Grid>
                                     })}
-                                </Grid>
+                                    {!childrenProps.resourcesLoading && keys.length > 0&&childrenProps.catalogResources[this.getTabValue()].length>=1&&
+                                    <ReactPaginate 
+                                    previousLabel={"previous"}
+                                    previousLinkClassName={"previousPage"}
+                                    nextLabel={"next"}
+                                    nextLinkClassName={"nextPage"}
+                                    breakLabel={<a href="">...</a>}
+                                    disabledClassName={"disablePage"}
+                                    breakClassName={"break-me"}
+                                    pageCount={this.state.pageCount}
+                                    marginPagesDisplayed={2}
+                                    pageRangeDisplayed={5}
+                                    onPageChange={this.handlePageClick}
+                                    containerClassName={"pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active"} />}
+                                    </Grid>
                             </Grid>
                             {!childrenProps.resourcesLoading && keys.length == 0 && <Message message="No Resources" type="title" />}
                         </Grid>

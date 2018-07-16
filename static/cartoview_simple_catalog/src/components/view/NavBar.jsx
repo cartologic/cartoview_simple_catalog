@@ -2,6 +2,7 @@ import AppBar from 'material-ui/AppBar'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Toolbar from 'material-ui/Toolbar'
+import Avatar from 'material-ui/Avatar'
 import Typography from 'material-ui/Typography'
 import { withStyles } from 'material-ui/styles'
 const styles = {
@@ -27,9 +28,11 @@ const NavBar = ( props ) => {
             {abstract !== "No abstract provided" 
           ?  <p> {abstract} </p>  : null}
           </Typography> */}
-        <div>
-        <h2 style={{margin: '0px'}}> {title} </h2>
-        {abstract !== "No abstract provided" ? <p style={{marginBottom: '5px', marginTop: '0px'}}> {abstract} </p> : null}
+          <Avatar id="navBarAvatar" alt="Logo" src="/uploaded/me.jpg" />
+
+        <div style={{marginLeft: '5px'}}>
+        <h2 id="navBarTitle"> {title} </h2>
+        {abstract !== "No abstract provided" ? <p id="navBarSubtitle"> {abstract} </p> : null}
         </div>
         </Toolbar>
        
