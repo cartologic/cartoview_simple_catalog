@@ -18,7 +18,9 @@ const styles = {
     },
 }
 const NavBar = ( props ) => {
-    const { classes, title, abstract} = props
+    const { classes, title, abstract, logo} = props
+    console.log("NavBar: ", porps)
+
     return (
         <div className={classes.root}>
       <AppBar position="static">
@@ -28,7 +30,7 @@ const NavBar = ( props ) => {
             {abstract !== "No abstract provided" 
           ?  <p> {abstract} </p>  : null}
           </Typography> */}
-          <Avatar id="navBarAvatar" alt="Logo" src="/uploaded/me.jpg" />
+          <Avatar id="navBarAvatar" alt="Logo" src={logo} />
 
         <div style={{marginLeft: '5px'}}>
         <h2 id="navBarTitle"> {title} </h2>
