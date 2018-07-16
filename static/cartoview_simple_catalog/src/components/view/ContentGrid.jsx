@@ -36,7 +36,6 @@ class ContentGrid extends Component {
     }
     handlePageClick = (data) => {
         console.log(this.props);
-        console.log(data)
         let selected = data.selected;
         const {childrenProps} = this.props;
         const pageCount = childrenProps.catalogResources[this.getTabValue()].length;

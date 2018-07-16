@@ -111,6 +111,9 @@
 
 .pagination {
     display: inline-block;
+    border: 2px solid #ddd;
+    padding: 10px;
+    border-radius: 25px;
 }
 
 .pagination a {
@@ -142,6 +145,8 @@
 .disablePage{
     cursor: not-allowed; 
 }
+
+
 
 @media screen and (max-width: 480px) {
     .resource-box-img {

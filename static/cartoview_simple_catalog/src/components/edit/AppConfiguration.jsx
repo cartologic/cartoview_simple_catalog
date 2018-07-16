@@ -56,14 +56,14 @@ export default class AppConfiguration extends React.Component {
         return options
     }
     getFormValue = (props) => {
-        const { title, selectedMap, thumbnail, abstract, config} =
-            props
+        console.log(props)
+        const { title, selectedMap, thumbnail, logo, abstract, config} = props
         const value = {
             title: title ? title : selectedMap ? selectedMap.title : null,
             abstract: abstract ? abstract : selectedMap ?
                 selectedMap.abstract : null,
             thumbnail: thumbnail ? thumbnail : selectedMap ?
-                selectedMap.thumbnail : null,
+                selectedMap.thumbnail : null,    
             keywords: this.keywordsToOptions(getPropertyFromConfig(config, 'keywords', []))
         }
         return value
@@ -75,6 +75,9 @@ export default class AppConfiguration extends React.Component {
                     label: "App Title"
                 },
                 thumbnail: {
+                    type: 'file'
+                },
+                logo: {
                     type: 'file'
                 },
                 keywords: {

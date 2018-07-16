@@ -10,6 +10,7 @@ export const generalFormSchema = () => {
         abstract: t.maybe(t.String),
         keywords:  t.list(selectKeywordItem),
         thumbnail: t.maybe(t.form.File),
+        logo: t.maybe(t.form.File)
     })
     return formSchema
 }

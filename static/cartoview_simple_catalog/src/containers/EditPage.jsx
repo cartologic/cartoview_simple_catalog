@@ -27,6 +27,7 @@ class EditPage extends React.Component {
             title: config ? config.title : null,
             abstract: config ? config.abstract : null,
             thumbnail: config ? config.thumbnail : null,
+            logo: config ? config.logo : null,
             config: config ? config.config : null,
             keywords: [],
             saving: false,
@@ -133,6 +134,7 @@ class EditPage extends React.Component {
             title,
             abstract,
             thumbnail,
+            logo,
             keywords,
             instanceId,
             searchEnabled,
@@ -179,6 +181,7 @@ class EditPage extends React.Component {
                     abstract,
                     title,
                     thumbnail,
+                    logo,
                     selectedMaps,
                     config,
                     allKeywords: keywords,
@@ -234,7 +237,8 @@ class EditPage extends React.Component {
             let data = this.prepareServerData()
             if (data.thumbnail.type.includes("image"))
             formData.append('thumbnail', data.thumbnail);
-
+            formData.append('logo', data.logo);
+            
             const url = instanceId ? urls.editURL(instanceId) : urls.newURL
             const data_ = JSON.stringify(data)
             formData.append('data', data_);

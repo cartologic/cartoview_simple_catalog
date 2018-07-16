@@ -66,14 +66,16 @@ class Catalog(StandardAppViews):
         title = data.get('title', "")
       
         thumbnail_img = files.get('thumbnail', None)
+        logo_img = files.get('logo', None)
         
         print('thumbnail_img: ', thumbnail_img)
-        uploaded_thumbnail_url=None
+        uploaded_thumbnail_url = None
+        uploaded_logo_url = None
         if thumbnail_img is not None:
-            fs = FileSystemStorage()
-            thumbnail_file = fs.save(thumbnail_img.name, thumbnail_img)
-            uploaded_thumbnail_url = fs.url(thumbnail_file)
-
+            uploaded_thumbnail_url = save_attached_files(thumbnail_img)
+        if logo_img is not None:
+            uploaded_logo_url = save_attached_files(logo_img)
+    
         access = data.get('access', None)
         keywords = data.get('keywords', [])
         config.update(access=access, keywords=keywords)
@@ -92,7 +94,9 @@ class Catalog(StandardAppViews):
         instance_obj.abstract = abstract
         if uploaded_thumbnail_url is not None:
             instance_obj.thumbnail_url = uploaded_thumbnail_url
-    
+        if uploaded_logo_url is not None:
+            instance_obj.logo = uploaded_logo_url
+
         if config:
             maps = Map.objects.filter(id__in=[int(id) for id in resources])
             if maps.count() > 0:
@@ -124,12 +128,16 @@ class Catalog(StandardAppViews):
         res_json.update(dict(success=True, id=instance_obj.id))
         return HttpResponse(json.dumps(res_json),
                             content_type="application/json")
+   
     # override save_all function for (app_manager views)
     def save_all(self, request, instance_id=None):
         response = self.save(request, instance_id)
-        return 
-    # def save_all(self, request, instance_id=None):
-    #     return request
-
+        return response
 
 simple_catalog = Catalog(APP_NAME)
+
+def save_attached_files (attached_file):
+        fs = FileSystemStorage()
+        saved_file = fs.save(attached_file.name, attached_file)
+        saved_file_url = fs.url(saved_file)
+        return saved_file_url
