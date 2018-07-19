@@ -98,12 +98,13 @@
     height: 250px;
     width: 250px;
 }
-#navBarTitle{
-    margin: 0px;
-}
-#navBarSubtitle{
+#navBarTitle.h2{
+    margin-top: 9px;
     margin-bottom: 5px;
-    margin-top: 0px;
+}
+#navBarSubtitle.p{
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 #navBarAvatar{
 
