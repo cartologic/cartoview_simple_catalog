@@ -1,5 +1,3 @@
-import 'rc-pagination/assets/index.css'
-
 import React, { Component } from 'react'
 import Tabs, { Tab } from 'material-ui/Tabs'
 
@@ -13,6 +11,8 @@ import compose from 'recompose/compose'
 import { withStyles } from 'material-ui/styles'
 import withWidth from 'material-ui/utils/withWidth'
 import ReactPaginate from 'react-paginate'
+import 'Source/css/paginate.css'
+
 
 const styles = theme => ({
     root: {
@@ -37,9 +37,10 @@ class ContentGrid extends Component {
     handlePageClick = (data) => {
         let selected = data.selected;
         const {childrenProps} = this.props;
+        console.log(childrenProps)
         const pageCount = childrenProps.catalogResources[this.getTabValue()].length;
         if (childrenProps.config.perPgae === undefined)
-        childrenProps.config.perPgae = 1;
+        this.props.childrenProps.config.perPgae = 1;
         let offset = Math.ceil(selected * childrenProps.config.perPgae);
         
         this.setState({offset: offset, pageCount: pageCount}, () => {
@@ -100,12 +101,11 @@ class ContentGrid extends Component {
 
                                         return <Grid key={resource.id} item xs={12} sm={6} md={3} lg={3} xl={3} ><ResourceCard resource={resource} /></Grid>
                                     })}
+                                    </Grid>
                                     {!childrenProps.resourcesLoading && keys.length > 0&&childrenProps.catalogResources[this.getTabValue()].length>=1&&
                                     <ReactPaginate 
                                     previousLabel={"previous"}
-                                    previousLinkClassName={"previousPage"}
                                     nextLabel={"next"}
-                                    nextLinkClassName={"nextPage"}
                                     breakLabel={<a href="">...</a>}
                                     disabledClassName={"disablePage"}
                                     breakClassName={"break-me"}
@@ -113,10 +113,9 @@ class ContentGrid extends Component {
                                     marginPagesDisplayed={2}
                                     pageRangeDisplayed={5}
                                     onPageChange={this.handlePageClick}
-                                    containerClassName={"pagination"}
+                                    containerClassName={"pagination center-div"}
                                     subContainerClassName={"pages pagination"}
-                                    activeClassName={"active"} />}
-                                    </Grid>
+                                    activeClassName={"active"}  />}
                             </Grid>
                             {!childrenProps.resourcesLoading && keys.length == 0 && <Message message="No Resources" type="title" />}
                         </Grid>

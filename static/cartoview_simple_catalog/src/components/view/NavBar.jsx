@@ -19,7 +19,6 @@ const styles = {
 }
 const NavBar = ( props ) => {
     const { classes, title, abstract, logo} = props
-    console.log("NavBar: ", props)
 
     return (
         <div className={classes.root}>
@@ -32,7 +31,7 @@ const NavBar = ( props ) => {
           </Typography> */}
           <Avatar id="navBarAvatar" alt="Logo" src={logo} />
 
-        <div style={{marginLeft: '5px'}}>
+        <div style={{marginLeft: '15px'}}>
         <h2 id="navBarTitle"> {title} </h2>
         {abstract !== "No abstract provided" ? <p id="navBarSubtitle"> {abstract} </p> : null}
         </div>

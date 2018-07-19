@@ -109,39 +109,6 @@
 
 }
 
-.pagination {
-    display: inline-block;
-    border: 2px solid #ddd;
-    padding: 10px;
-    border-radius: 25px;
-}
-
-.pagination a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    border: 1px solid #ddd;
-}
-
-.pagination a.active {
-    background-color: #2c689c;
-    color: white;
-    border: 1px solid #2c689c;
-}
-
-.pagination a:hover:not(.active) {background-color: #ddd;}
-
-.pagination a:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.pagination a:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
 .disablePage{
     cursor: not-allowed; 
 }
