@@ -235,14 +235,15 @@ class EditPage extends React.Component {
             var formData = new FormData();
             
             let data = this.prepareServerData()
-            if (data.thumbnail.type.includes("image"))
-            formData.append('thumbnail', data.thumbnail);
-            formData.append('logo', data.logo);
+            if (data.thumbnail !==null && data.thumbnail.type.includes("image"))
+            if (data.thumbnail !== null)
+            formData.append('thumbnail', data.thumbnail)
+            if (data.logo !== null && data.logo.type.includes("image"))
+            formData.append('logo', data.logo)
             
             const url = instanceId ? urls.editURL(instanceId) : urls.newURL
             const data_ = JSON.stringify(data)
             formData.append('data', data_);
-            console.log(data);
             doPost(url, formData)
                 .then(result => {
                     this.setState({

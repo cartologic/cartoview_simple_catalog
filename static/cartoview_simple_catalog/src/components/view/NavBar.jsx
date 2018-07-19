@@ -19,7 +19,7 @@ const styles = {
 }
 const NavBar = ( props ) => {
     const { classes, title, abstract, logo} = props
-    console.log("NavBar: ", porps)
+    console.log("NavBar: ", props)
 
     return (
         <div className={classes.root}>

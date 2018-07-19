@@ -56,14 +56,13 @@ export default class AppConfiguration extends React.Component {
         return options
     }
     getFormValue = (props) => {
-        console.log(props)
         const { title, selectedMap, thumbnail, logo, abstract, config} = props
         const value = {
             title: title ? title : selectedMap ? selectedMap.title : null,
             abstract: abstract ? abstract : selectedMap ?
                 selectedMap.abstract : null,
-            thumbnail: thumbnail ? thumbnail : selectedMap ?
-                selectedMap.thumbnail : null,    
+            thumbnail: null,
+            logo: null,      
             keywords: this.keywordsToOptions(getPropertyFromConfig(config, 'keywords', []))
         }
         return value
@@ -92,7 +91,7 @@ export default class AppConfiguration extends React.Component {
         return options
     }
     render() {
-        const {thumbnail}=this.props
+        const {thumbnail, logo}=this.props
         return (
             <div>
                 <h3>{"General Configuration"}</h3>
@@ -102,7 +101,10 @@ export default class AppConfiguration extends React.Component {
                     type={generalFormSchema()}
                     onChange={this.onChange}
                     options={this.getFormOptions()} />
-                    {thumbnail ? <div><h5>Attached Thumbnail</h5> <img id="thumbnail"src={thumbnail}/></div> : null}
+                    <div className="col-container">
+                    {thumbnail ? <div className="col"><h5>Attached Thumbnail</h5> <img id="thumbnail"src={thumbnail}/></div> : null}
+                    {logo ? <div className="col"><h5>Attached Logo</h5> <img id="thumbnail"src={logo}/></div> : null}
+                    </div>
             </div>
         )
     }

@@ -24,7 +24,11 @@
     const props = {{ instance.config | safe }}
     props.title={{instance.title|dump_json}}
     props.abstract={{instance.abstract|dump_json}}
+    {% if instance.logo %}
     props.logo={{instance.logo.url|dump_json}}
+    {% else %}
+    props.logo=undefined
+    {% endif %}
     props.thumbnail={{instance.thumbnail_url|dump_json}}
     props.username=username
     SimpleCatalogContainer.show('root', props, urls);

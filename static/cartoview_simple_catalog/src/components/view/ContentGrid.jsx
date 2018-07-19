@@ -27,7 +27,7 @@ const styles = theme => ({
 class ContentGrid extends Component {
     state = {
         value: 0,
-        pageCount: 10,
+        pageCount: 2,
         offset: 0,
     }
 
@@ -35,7 +35,6 @@ class ContentGrid extends Component {
         this.setState({ value })
     }
     handlePageClick = (data) => {
-        console.log(this.props);
         let selected = data.selected;
         const {childrenProps} = this.props;
         const pageCount = childrenProps.catalogResources[this.getTabValue()].length;
@@ -56,7 +55,6 @@ class ContentGrid extends Component {
         return keys['0']
     }
     render() {
-        console.log(this.props);
         const { classes, childrenProps } = this.props
         const keys = Object.keys(childrenProps.catalogResources)
         return (

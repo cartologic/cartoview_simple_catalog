@@ -64,7 +64,6 @@ class SimpleCatalogContainer extends Component {
     getCatalogResources = () => {
         let resources = this.applySearch()
         resources = _.groupBy(resources, 'type')
-        console.log(resources)
         return { catalogResources: resources }
     }
     getChildrenProps = () => {

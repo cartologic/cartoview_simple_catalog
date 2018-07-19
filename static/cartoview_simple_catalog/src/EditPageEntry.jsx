@@ -27,6 +27,7 @@ class Viewer {
                     title: res.title,
                     abstract: res.abstract,
                     thumbnail: res.thumbnail_url,
+                    logo: res.logo,
                     keywords: res.keywords,
                     map: res.map,
                     id:res.id
