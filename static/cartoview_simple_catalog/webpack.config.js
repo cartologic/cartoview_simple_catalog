@@ -30,7 +30,7 @@ const config = {
         libraryTarget: 'umd',
         umdNamedDefine: true,
         chunkFilename: '[name]-chunk.js',
-        publicPath: "/static/cartoview_simple_catalog/"
+        publicPath: "/static/cartoview_simple_catalog/dist/"
     },
     node: {
         fs: "empty"

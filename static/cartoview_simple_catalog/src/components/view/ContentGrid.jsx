@@ -29,14 +29,10 @@ class ContentGrid extends Component {
         pageCount: 1,
         offset: 0,
         perPage: 2,
-        paginateData: []
     }
-    // componentDidMount(){
-    //     this.getTabData();
-    // }
     handleChange = (event, value) => {
         this.setState({
-            value
+            value, offest: 1
         }, () => {
             this.updatePageCount()
         })
@@ -46,22 +42,8 @@ class ContentGrid extends Component {
         this.setState({pageCount})
     }
     handlePageClick = (data) => {
-        let selected = data.selected;
-        const perPage = this.state.perPge;
-        let offset = Math.ceil(selected * perPage);
-        this.setState({
-            offset: offset
-        }, () => {
-            this.getTabData()
-        });
-    }
-    getTabData() {
-        const {childrenProps} = this.props;
-        const {perPage, offset} = this.state;
-        const tabData = childrenProps.catalogResources[this.getTabValue()];
-        this.setState({
-            paginateData: tabData.slice(offset * perPage, (offset + 1)) * perPage
-        })
+        let offset = data.selected;
+        this.setState({offset: offset});
     }
     getTabValue = () => {
         const {childrenProps} = this.props
@@ -73,8 +55,6 @@ class ContentGrid extends Component {
     }
     render() {
         const {classes, childrenProps} = this.props
-        // const {paginateData} = this.state;
-        const paginateData = childrenProps.catalogResources[this.getTabValue()];
         const keys = Object.keys(childrenProps.catalogResources)
         return (
             <div className={classes.root}>
@@ -95,7 +75,6 @@ class ContentGrid extends Component {
                                     searchValue={childrenProps.searchText}
                                     searchChanged={childrenProps.searchChanged}/>}
                             </Grid>
-
                             <Grid item xs={12}>
                                 {keys.length > 0 && <Paper className={classes.tabPaper}>
                                     <Tabs
@@ -104,34 +83,28 @@ class ContentGrid extends Component {
                                         indicatorColor="primary"
                                         textColor="primary"
                                         centered>
-
                                         {!childrenProps.resourcesLoading && keys.map((key, index) => {
                                             return <Tab key={index} label={key}/>
                                         })}
                                     </Tabs>
 
                                 </Paper>}
-                                <Grid container
+                                <Grid
+                                    container
                                     spacing={8}
                                     className={classes.root}
                                     alignItems={"center"}
                                     justify={'center'}>
-                                    {/* {!childrenProps.resourcesLoading && keys.length > 0 && childrenProps
+                                    {!childrenProps.resourcesLoading && keys.length > 0 && childrenProps
                                         .catalogResources[this.getTabValue()]
+                                        .slice(this.state.offset * this.state.perPage, ((this.state.offset+1) * this.state.perPage))
                                         .map(resource => {
-
                                             return <Grid key={resource.id} item xs={12} sm={6} md={3} lg={3} xl={3}><ResourceCard resource={resource}/></Grid>
-                                        })}
+                                        }
+                                        )}
                                 </Grid>
-                                {!childrenProps.resourcesLoading && keys.length > 0 && childrenProps.catalogResources[this.getTabValue()].length >= 1 && <ReactPaginate */}
-                                 {console.log(paginateData)}
-                                 {!childrenProps.resourcesLoading && keys.length > 0 && paginateData
-                                    .map(resource => {
-
-                                         return <Grid key={resource.id} item xs={12} sm={6} md={3} lg={3} xl={3}><ResourceCard resource={resource}/></Grid>
-                                     })}
-                                 </Grid>
-                                 {!childrenProps.resourcesLoading && keys.length > 0 && paginateData.length >= 1 && <ReactPaginate                                
+                                {!childrenProps.resourcesLoading && keys.length > 0 && childrenProps.catalogResources[this.getTabValue()].length >= 1 && 
+                                <ReactPaginate    
                                     previousLabel={"previous"}
                                     nextLabel={"next"}
                                     breakLabel={< a href = "" > ...</a>}
