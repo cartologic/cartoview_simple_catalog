@@ -32,7 +32,7 @@ class ContentGrid extends Component {
     }
     handleChange = (event, value) => {
         this.setState({
-            value, offest: 1
+            value, offset: 0
         }, () => {
             this.updatePageCount()
         })
@@ -54,6 +54,7 @@ class ContentGrid extends Component {
         return keys['0']
     }
     render() {
+        console.log(this.state.offset)
         const {classes, childrenProps} = this.props
         const keys = Object.keys(childrenProps.catalogResources)
         return (
@@ -87,7 +88,6 @@ class ContentGrid extends Component {
                                             return <Tab key={index} label={key}/>
                                         })}
                                     </Tabs>
-
                                 </Paper>}
                                 <Grid
                                     container
@@ -103,6 +103,7 @@ class ContentGrid extends Component {
                                         }
                                         )}
                                 </Grid>
+                                <div style={{marginLeft: '40%'}}>
                                 {!childrenProps.resourcesLoading && keys.length > 0 && childrenProps.catalogResources[this.getTabValue()].length >= 1 && 
                                 <ReactPaginate    
                                     previousLabel={"previous"}
@@ -111,11 +112,14 @@ class ContentGrid extends Component {
                                     breakClassName={"break-me"}
                                     pageCount={this.state.pageCount}
                                     marginPagesDisplayed={2}
+                                    initialPage={0}
+                                    forcePage = {this.state.offset}
                                     pageRangeDisplayed={5}
                                     onPageChange={this.handlePageClick}
                                     containerClassName={"pagination center-div"}
                                     subContainerClassName={"pages pagination"}
                                     activeClassName={"active"}/>}
+                                    </div>
                             </Grid>
                             {!childrenProps.resourcesLoading && keys.length == 0 && <Message message="No Resources" type="title"/>}
                         </Grid>
