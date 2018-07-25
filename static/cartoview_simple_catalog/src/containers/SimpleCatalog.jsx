@@ -10,6 +10,8 @@ import _ from 'lodash'
 import { doGet } from 'Source/utils/utils'
 import { render } from 'react-dom'
 
+// Logic and functionilty for 'SimpleCatalog' Component
+// HTML code for this component in 'components/view/SimpleCatalog.jsx' 
 class SimpleCatalogContainer extends Component {
     constructor(props) {
         super(props)

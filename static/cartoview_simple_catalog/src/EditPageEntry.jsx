@@ -1,3 +1,4 @@
+// import EditPage Functionality and Logic
 import EditPage from './containers/EditPage'
 import React from 'react'
 import { getCRSFToken } from './helpers/helpers.jsx'
@@ -20,6 +21,7 @@ class Viewer {
         } ).then( ( response ) => response.json( ) )
     }
     view( ) {
+        //
         if ( this.urls.appInstance ) {
             this.loadConfig( ).then( ( res ) => {
                 this.config = {

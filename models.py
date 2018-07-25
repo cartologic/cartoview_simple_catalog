@@ -6,6 +6,7 @@ import json
 
 class CatalogConfig(object):
     def __init__(self, request=None, catalog=None):
+        print ("the Self: ", self)
         self.__dict__.update(layers='false',
                              maps='false',
                              apps='false',

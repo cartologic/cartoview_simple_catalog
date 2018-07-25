@@ -1,5 +1,8 @@
 import t from 'tcomb-form'
+// All tcomb forms defined here
 
+
+// General Form
 export const generalFormSchema = () => {
     const selectKeywordItem = t.struct({
         value: t.String,
@@ -14,7 +17,7 @@ export const generalFormSchema = () => {
     })
     return formSchema
 }
-
+// Catalog Options Form
 export const catalogFormSchema = () => {
     const formSchema = t.struct({
         sortBy: t.String,
@@ -22,6 +25,7 @@ export const catalogFormSchema = () => {
     })
     return formSchema
 }
+// Access Configuration Form (edit/new)
 export const accessFormSchema = () => {
     const selectUserItem = t.struct({
         value: t.String,

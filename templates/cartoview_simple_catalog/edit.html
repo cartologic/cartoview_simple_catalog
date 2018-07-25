@@ -1,12 +1,21 @@
 {% extends "cartoview_simple_catalog/base.html" %}
+
 {% load bootstrap_tags cartoview_tags staticfiles i18n  %}
+<!-- all this root div for react -->
 {% block react_content %}
-            <div id="root"></div>
+<div id="root"></div>
 {% endblock %}
+
 {% block extra_js %}
-    <script src="{{ STATIC_URL }}cartoview_simple_catalog/dist/config.bundle.js"></script>
+    <script src="{{ STATIC_URL }}cartoview_simple_catalog/dist/config.bundle.js">
+    </script>
+
     <script>
-    var viewer=new Viewer('root',username,urls)
+    // pass these parameter to 'Viewer' class constructor in 'src/EditPageEntry'
+    var viewer=new Viewer('root', username, urls)
+    // call function view to render [EditPage From 'Containers' as a logic]
+    // which will render [EditPage From 'Components' as HTML code])
     viewer.view();
     </script>
+
 {% endblock %}

@@ -54,7 +54,6 @@ class ContentGrid extends Component {
         return keys['0']
     }
     render() {
-        console.log(this.state.offset)
         const {classes, childrenProps} = this.props
         const keys = Object.keys(childrenProps.catalogResources)
         return (

@@ -20,7 +20,9 @@
 <div style="height: 100%;" id="root"></div>
 {% include 'cartoview_simple_catalog/common_js.html' %}
 <script src="{% static 'cartoview_simple_catalog/dist/SimpleCatalog.bundle.js?version=1' %}"></script>
+<!-- check cartoview/app_manager/views/py (StandardAppViews class) -->
 <script type="text/javascript">
+
     const props = {{ instance.config | safe }}
     props.title={{instance.title|dump_json}}
     props.abstract={{instance.abstract|dump_json}}
@@ -31,6 +33,7 @@
     {% endif %}
     props.thumbnail={{instance.thumbnail_url|dump_json}}
     props.username=username
+    // 'show' to render component from 'containers/SimpleCatalog.jsx' 
     SimpleCatalogContainer.show('root', props, urls);
   </script>
 </body>
