@@ -144,7 +144,7 @@ class EditPage extends React.Component {
             profiles
         } = this.state
         const { urls } = this.props
-        // all steps will be rendered in 'components/edit/TabsContent.jsx'
+        // all steps will be rendered in 'components/edit/EditPage.jsx' in 'Tabs'
         let steps = [
             {
                 title: "Select Resources",

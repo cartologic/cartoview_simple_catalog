@@ -10,6 +10,12 @@ export default class TabsContent extends React.Component {
         return true
     }
     render() {
+        
+        /* 
+        NOTE: That 'steps' in 'containers/EditPage.jsx' will be rendered in 
+        'components/edit/EditPage.jsx' not here in 'TabsContent.jsx' 
+        */
+        
         const { childrenProps, getContentClassName } = this.props
         return (
             <div>

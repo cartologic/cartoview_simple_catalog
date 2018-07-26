@@ -7,6 +7,10 @@ import {
 import { getPropertyFromConfig } from 'Source/utils/utils'
 import t from 'tcomb-form'
 const Form = t.form.Form
+
+/*
+  parent_component: EditPage 'src/containers/EditPage.jsx'
+*/
 export default class AppConfiguration extends React.Component {
     constructor(props) {
         super(props)
@@ -61,6 +65,12 @@ export default class AppConfiguration extends React.Component {
             title: title ? title : selectedMap ? selectedMap.title : null,
             abstract: abstract ? abstract : selectedMap ?
                 selectedMap.abstract : null,
+            /*
+            set thumbnail & logo to null initailly cause they're of type 
+            'file' in the tcomb-form options, and saved as string URL and we later validate that attached 
+            file is not null in the edit/new requests [in views.py on 'save' function] 
+            and 'src/containers/EditPage.jsx on 'sendConfiguration' function)
+            */
             thumbnail: null,
             logo: null,      
             keywords: this.keywordsToOptions(getPropertyFromConfig(config, 'keywords', []))
