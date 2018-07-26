@@ -9,9 +9,10 @@ import {
 import t from 'tcomb-form'
 
 const Form = t.form.Form
+// Access Configuration component (see steps on 'containers/EditPage.jsx') 
 export default class AppAccess extends React.Component {
     constructor(props) {
-        super(props)
+        super(props) // porps have (loading, config, profiles)
         this.state = {
             value: this.getFormValue(this.props)
         }

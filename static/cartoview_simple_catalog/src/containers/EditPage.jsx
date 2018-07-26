@@ -38,6 +38,7 @@ class EditPage extends React.Component {
         }
     }
     componentWillMount() {
+        // before rendering the component call these function declared on 'src/utils/URL.jsx' 
         this.getMaps()
         this.getKeywords()
         this.getProfiles()
@@ -46,6 +47,7 @@ class EditPage extends React.Component {
         const { userMaps } = this.state
         this.setState({ userMaps: !userMaps }, this.getMaps)
     }
+    // get maps depending on offset and limit for pagination
     getMaps = (offset = 0, limit = LIMIT) => {
         this.setState({ loading: true })
         const { username } = this.props
@@ -95,6 +97,7 @@ class EditPage extends React.Component {
             this.setState({ keywords: result.objects, loading: false })
         })
     }
+    // get all profiles (users)
     getProfiles = () => {
         this.setState({ loading: true })
         const { urls } = this.props
@@ -141,6 +144,7 @@ class EditPage extends React.Component {
             profiles
         } = this.state
         const { urls } = this.props
+        // all steps will be rendered in 'components/edit/TabsContent.jsx'
         let steps = [
             {
                 title: "Select Resources",
@@ -284,6 +288,7 @@ class EditPage extends React.Component {
     render() {
         return (
             <div>
+                {/* render EditPage component 'src/components/EditPage.jsx' */}
                 <EditPageComponent childrenProps={this.getChildrenProps()} />
             </div>
         )

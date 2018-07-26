@@ -2,7 +2,11 @@ import Img from 'react-image'
 import PropTypes from 'prop-types'
 import React from 'react'
 import Spinner from 'react-spinkit'
+// 'react-spinkit': is a collection of loading indicators animated with CSS for React 
 
+/*
+  parent_component: 'components/edit/MapSelector.jsx'
+*/
 export const MapCard = (props) => {
     const { selectMap, map, selectedMaps, urls } = props
     return (

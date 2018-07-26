@@ -47,6 +47,14 @@ const SearchBox = (props) => {
 SearchBox.propTypes = {
     searchByTitle: PropTypes.func.isRequired
 }
+
+/* 
+  parent_component: 'src/containers/EditPage.jsx'
+  'MapSelector' is component for 'Select Resources' form in (edit/new)
+  each resource here is rendered as 'MapCard.jsx' component
+
+   ** check parent_component for more detials **
+*/
 export default class MapSelector extends React.Component {
     constructor(props) {
         super(props)
@@ -62,11 +70,14 @@ export default class MapSelector extends React.Component {
         return true
     }
     handlePageClick = (data) => {
+        // 'getMaps' function comes in props from 'parent_component'
         const { getMaps } = this.props
         const selected = data.selected
         const offset = selected * 9
-        getMaps(offset)
+        // this function will update totalMaps varibale in props, check 'select resources' step on 'parent_component'
+        getMaps(offset) // Returns map objects depending on offset or actually currentPage in pagination
     }
+    // check props send to 'MapSelector' from 'steps' on 'parent_component' 
     searchByTitle = (event) => {
         const { search, handleSearchMode, getMaps } = this.props
         const text = event.target.value
@@ -78,6 +89,7 @@ export default class MapSelector extends React.Component {
         }
     }
     render() {
+        // props come from 'parent_component'
         const { loading,selectedMaps, selectMap, maps, userMaps, totalMaps, UserMapsChanged, limit, urls, searchEnabled } = this.props
         return (
             <div className="grid">

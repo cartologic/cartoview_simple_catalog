@@ -2,6 +2,8 @@ import InfoModal from './InfoModal'
 import PropTypes from 'prop-types'
 import React from 'react'
 import classNames from 'classnames'
+
+// declare 'ActionBar' Component to be used here.
 const ActionBar = (props) => {
     const { save, selectedMaps, instanceId, urls, saving, validate } = props
     const extraProps = {
@@ -30,6 +32,9 @@ ActionBar.propTypes = {
     saving: PropTypes.bool.isRequired,
     urls: PropTypes.object.isRequired
 }
+
+
+// declare 'Tabs' component to be used here.
 const Tabs = (props) => {
     const {
         childrenProps,
@@ -73,6 +78,8 @@ Tabs.propTypes = {
     checkIfDisabled: PropTypes.func.isRequired,
     getContentClassName: PropTypes.func.isRequired,
 }
+
+// declare 'AppBar' component to be used here.
 const AppBar = (props) => {
     const { handleHideModal } = props
     return (
@@ -93,6 +100,11 @@ const AppBar = (props) => {
 AppBar.propTypes = {
     handleHideModal: PropTypes.func.isRequired
 }
+
+/* 
+Here the view for EditPage will be renders and for functionality on 'src/containers/EditPage.jsx'
+EditPage.jsx will be used in case of (new/edit) app instances 
+*/
 export default class EditPageComponent extends React.Component {
     state = {
         showModal: false
@@ -107,6 +119,7 @@ export default class EditPageComponent extends React.Component {
             "list-group-item": true
         })
     }
+    // this function will be called-back from 'InfoModal.jsx'
     handleHideModal = () => {
         const { showModal } = this.state
         this.setState({ showModal: !showModal })
@@ -118,17 +131,25 @@ export default class EditPageComponent extends React.Component {
         })
     }
     render() {
+        /*
+        chiledernProps come from 'src/containers/EditPage.jsx' 
+        prepared by 'getChildrenProps()' function, where we can see what's 'childernProps' is!
+        */
         const { childrenProps } = this.props
         let { showModal } = this.state
         return (
             <div>
+                {/* 'AppBar' sends props = {handleHideModal} */}
                 <AppBar handleHideModal={this.handleHideModal} />
                 <hr />
+                {/* 'ActionBar' sends props = {validate, saving, urls, save, selectedMaps, instanceId} */}
                 <ActionBar validate={childrenProps.validate} saving={childrenProps.saving} urls={childrenProps.urls} save={childrenProps.save} selectedMaps={childrenProps.selectedMaps} instanceId={childrenProps.instanceId} />
                 <hr />
                 <div className="row content">
+                {/* 'Tabs' sends props = {childrenProps, checkIfDisabled, getContentClassName, getTabClassName} */}
                     <Tabs childrenProps={childrenProps} checkIfDisabled={this.checkIfDisabled} getContentClassName={this.getContentClassName} getTabClassName={this.getTabClassName} />
                 </div>
+                {/* render InfoModal from 'src/components/edit/InfoModal.jsx' */}
                 {showModal && <InfoModal handleHideModal={this.handleHideModal} />}
             </div>
         )

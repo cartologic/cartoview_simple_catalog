@@ -2,12 +2,25 @@ import React, { Component } from 'react'
 
 import PropTypes from 'prop-types'
 
+
+/*
+  parent_component: 'src/components/EditPage.jsx'
+  */
 export default class InfoModal extends Component {
     constructor(props) {
         super(props)
     }
     componentDidMount() {
+        /* 
+        hidden.bs.modal: This event is fired when the modal has finished being hidden from the user
+        
+        Ex: 
+        $('#myModal').on('hidden.bs.modal', function (e) {
+        // do something...
+        })
+        */ 
         $(this.modal).modal('show')
+        // 'handleHideModal' function passed to 'InfoModal' component on 'src/components/EditPage.jsx'
         $(this.modal).on('hidden.bs.modal', this.props.handleHideModal)
     }
     render() {
@@ -35,6 +48,7 @@ export default class InfoModal extends Component {
         )
     }
 }
+// check for props type for validate and if it's required. 
 InfoModal.propTypes = {
     handleHideModal: PropTypes.func.isRequired,
 }
