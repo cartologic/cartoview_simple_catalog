@@ -87,6 +87,7 @@ SimpleCatalogContainer.propTypes = {
     urls: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired
 }
+// show function called
 global.SimpleCatalogContainer = {
     show: (el, props, urls) => {
         render(<SimpleCatalogContainer urls={urls} config={props} />,

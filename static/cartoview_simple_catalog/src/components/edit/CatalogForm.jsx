@@ -4,6 +4,12 @@ import { catalogFormSchema } from 'Source/containers/forms'
 import { getPropertyFromConfig } from 'Source/utils/utils'
 import t from 'tcomb-form'
 const Form = t.form.Form
+/* 
+  - parent_component: 'src/containers/EditPage.jsx'
+  - this's the rendering component for 'Catalog Options'
+  - check 'steps' on parent_component
+  - check 'utils/utils' & 'containers/forms'
+*/
 export default class CatalogForm extends React.Component {
     constructor( props ) {
         super( props )

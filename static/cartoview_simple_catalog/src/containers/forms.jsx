@@ -1,6 +1,6 @@
 import t from 'tcomb-form'
 // All tcomb forms defined here
-
+// all input form are declared here.
 
 // General Form
 export const generalFormSchema = () => {
