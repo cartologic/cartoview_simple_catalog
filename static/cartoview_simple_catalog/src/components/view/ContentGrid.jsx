@@ -28,7 +28,7 @@ class ContentGrid extends Component {
         value: 0,
         pageCount: 1,
         offset: 0,
-        perPage: 2,
+        perPage: 20,
     }
     handleChange = (event, value) => {
         this.setState({
